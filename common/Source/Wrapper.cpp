@@ -9526,8 +9526,8 @@ void agk::SetSpriteShaderConstantByName( unsigned int spriteID, const char *szNa
     cSprite *pSprite = m_cSpriteList.GetItem( spriteID );
     if( !pSprite ) {
 #ifdef _AGK_ERROR_CHECK
-        uString errStr( "Failed to set shader constant for object " );
-        errStr.AppendUInt( spriteID ).Append( " - object does not exist" );
+        uString errStr( "Failed to set shader constant for sprite " );
+        errStr.AppendUInt( spriteID ).Append( " - sprite does not exist" );
         Error( errStr );
 #endif
         return;
@@ -9559,8 +9559,8 @@ void agk::SetSpriteShaderConstantArrayByName( unsigned int spriteID, const char 
     cSprite *pSprite = m_cSpriteList.GetItem( spriteID );
     if( !pSprite ) {
 #ifdef _AGK_ERROR_CHECK
-        uString errStr( "Failed to set shader constant for object " );
-        errStr.AppendUInt( spriteID ).Append( " - object does not exist" );
+        uString errStr( "Failed to set shader constant for sprite " );
+        errStr.AppendUInt( spriteID ).Append( " - sprite does not exist" );
         Error( errStr );
 #endif
         return;
@@ -9582,8 +9582,8 @@ void agk::SetSpriteShaderConstantDefault( unsigned int spriteID, const char *szN
     cSprite *pSprite = m_cSpriteList.GetItem( spriteID );
     if( !pSprite ) {
 #ifdef _AGK_ERROR_CHECK
-        uString errStr( "Failed to set shader constant default for object " );
-        errStr.AppendUInt( spriteID ).Append( " - object does not exist" );
+        uString errStr( "Failed to set shader constant default for sprite " );
+        errStr.AppendUInt( spriteID ).Append( " - sprite does not exist" );
         Error( errStr );
 #endif
         return;
