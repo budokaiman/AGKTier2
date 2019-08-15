@@ -2115,45 +2115,45 @@ void cSprite::SetShader( AGKShader* shader )
 }
 
 void cSprite::SetShaderConstantByName( const char *name, float v1, float v2, float v3, float v4 ) {
-    sSpriteUniform *pVar = m_cShaderVariables.GetItem( name );
+	sSpriteUniform *pVar = m_cShaderVariables.GetItem( name );
 
-    if( !pVar ) {
-        pVar = new sSpriteUniform();
-        m_cShaderVariables.AddItem( pVar, name );
-    }
+	if( !pVar ) {
+		pVar = new sSpriteUniform();
+		m_cShaderVariables.AddItem( pVar, name );
+	}
 
-    pVar->m_sName.SetStr( name );
-    pVar->index = -1;
-    pVar->v1 = v1;
-    pVar->v2 = v2;
-    pVar->v3 = v3;
-    pVar->v4 = v4;
-    m_cShaderVariables.AddItem( pVar, name );
+	pVar->m_sName.SetStr( name );
+	pVar->index = -1;
+	pVar->v1 = v1;
+	pVar->v2 = v2;
+	pVar->v3 = v3;
+	pVar->v4 = v4;
+	m_cShaderVariables.AddItem( pVar, name );
 }
 
 void cSprite::SetShaderConstantArrayByName( const char *name, UINT index, float v1, float v2, float v3, float v4 ) {
-    if( strlen( name ) > 90 ) return;
-    char str[100];
-    sprintf( str, "%s_%d", name, index );
+	if( strlen( name ) > 90 ) return;
+	char str[100];
+	sprintf( str, "%s_%d", name, index );
 
-    sSpriteUniform *pVar = m_cShaderVariables.GetItem( str );
+	sSpriteUniform *pVar = m_cShaderVariables.GetItem( str );
 
-    if( !pVar ) {
-        pVar = new sSpriteUniform();
-        m_cShaderVariables.AddItem( pVar, str );
-    }
+	if( !pVar ) {
+		pVar = new sSpriteUniform();
+		m_cShaderVariables.AddItem( pVar, str );
+	}
 
-    pVar->m_sName.SetStr( name );
-    pVar->index = (int)index;
-    pVar->v1 = v1;
-    pVar->v2 = v2;
-    pVar->v3 = v3;
-    pVar->v4 = v4;
+	pVar->m_sName.SetStr( name );
+	pVar->index = (int)index;
+	pVar->v1 = v1;
+	pVar->v2 = v2;
+	pVar->v3 = v3;
+	pVar->v4 = v4;
 }
 
 void cSprite::SetShaderConstantDefault( const char *name ) {
-    sSpriteUniform *pVar = m_cShaderVariables.RemoveItem( name );
-    if( pVar ) delete pVar;
+	sSpriteUniform *pVar = m_cShaderVariables.RemoveItem( name );
+	if( pVar ) delete pVar;
 }
 
 void cSprite::SetUserData( void* data )
@@ -3342,13 +3342,13 @@ void cSprite::PlatformDraw( float *vertices, float *uv, unsigned char *color )
 		pShader->SetTempConstantByName( "agk_spritesize", GetWidth(), GetHeight(), 0, 0 );
 	}
 
-    // setup user defined shader variables for this object
-    sSpriteUniform *pVar = m_cShaderVariables.GetFirst();
-    while( pVar ) {
-        if( pVar->index < 0 ) pShader->SetTempConstantByName( pVar->m_sName, pVar->v1, pVar->v2, pVar->v3, pVar->v4 );
-        else pShader->SetTempConstantArrayByName( pVar->m_sName, pVar->index, pVar->v1, pVar->v2, pVar->v3, pVar->v4 );
-        pVar = m_cShaderVariables.GetNext();
-    }
+	// setup user defined shader variables for this object
+	sSpriteUniform *pVar = m_cShaderVariables.GetFirst();
+	while( pVar ) {
+		if( pVar->index < 0 ) pShader->SetTempConstantByName( pVar->m_sName, pVar->v1, pVar->v2, pVar->v3, pVar->v4 );
+		else pShader->SetTempConstantArrayByName( pVar->m_sName, pVar->index, pVar->v1, pVar->v2, pVar->v3, pVar->v4 );
+		pVar = m_cShaderVariables.GetNext();
+	}
 
 	agk::PlatformSetCullMode( 0 );
 
