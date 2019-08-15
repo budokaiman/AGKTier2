@@ -9506,7 +9506,7 @@ void agk::SetSpriteShader( UINT spriteID, UINT shaderID )
 	pSprite->SetShader( pShader );
 }
 
-//****f* Sprite/Properties/SetObjectShaderConstantByName
+//****f* Sprite/Properties/SetSpriteShaderConstantByName
 // FUNCTION
 //   Sets a shader constant for a sprite by name, the constant must be marked as "uniform" in the shader source.
 //   The sprite will set the specified constant to this value for any shader that it is applied to it.
@@ -9536,7 +9536,7 @@ void agk::SetSpriteShaderConstantByName( unsigned int spriteID, const char *szNa
     pSprite->SetShaderConstantByName( szName, value1, value2, value3, value4 );
 }
 
-//****f* Sprite/Properties/SetObjectShaderConstantArrayByName
+//****f* Sprite/Properties/SetSpriteShaderConstantArrayByName
 // FUNCTION
 //   Sets a shader constant array index by name, the constant must be marked as "uniform" in the shader source.
 //   Array indices start at 0, if the array index is out of bounds then it will be ignored and no changes will 
@@ -9569,7 +9569,7 @@ void agk::SetSpriteShaderConstantArrayByName( unsigned int spriteID, const char 
     pSprite->SetShaderConstantArrayByName( szName, arrayIndex, value1, value2, value3, value4 );
 }
 
-//****f* Sprite/Properties/SetObjectShaderConstantDefault
+//****f* Sprite/Properties/SetSpriteShaderConstantDefault
 // FUNCTION
 //   Stops a sprite setting the given constant name in its shaders and uses the shader's default value from now on.
 // INPUTS
