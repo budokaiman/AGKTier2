@@ -66,18 +66,18 @@ namespace AGK
 	{
 		protected:
 
-            struct sSpriteUniform {
-                uString m_sName;
-                int index;
-                float v1;
-                float v2;
-                float v3;
-                float v4;
+			struct sSpriteUniform {
+				uString m_sName;
+				int index;
+				float v1;
+				float v2;
+				float v3;
+				float v4;
 
-                sSpriteUniform() { index = -1; v1 = 0; v2 = 0; v3 = 0; v4 = 0; };
-                sSpriteUniform( const sSpriteUniform* pOther ) { m_sName.SetStr( pOther->m_sName ); index = pOther->index; v1 = pOther->v1; v2 = pOther->v2; v3 = pOther->v3; v4 = pOther->v4; };
-                ~sSpriteUniform() {}
-            };
+				sSpriteUniform() { index = -1; v1 = 0; v2 = 0; v3 = 0; v4 = 0; };
+				sSpriteUniform( const sSpriteUniform* pOther ) { m_sName.SetStr( pOther->m_sName ); index = pOther->index; v1 = pOther->v1; v2 = pOther->v2; v3 = pOther->v3; v4 = pOther->v4; };
+				~sSpriteUniform() {}
+			};
 
 			static cSprite* g_pAllSprites;
 			static cSprite* g_pLastSprite;
@@ -127,7 +127,7 @@ namespace AGK
 			float		m_fClipX2;
 			float		m_fClipY2;
 
-            cHashedList<sSpriteUniform> m_cShaderVariables;
+			cHashedList<sSpriteUniform> m_cShaderVariables;
 
 			// UV variables
 			//int		m_iUVMode;
@@ -282,9 +282,9 @@ namespace AGK
 			AGKShader* GetShader() { return m_pShader; }
 			void SetShader( AGKShader* shader ); 
 
-            void SetShaderConstantByName( const char *name, float v1, float v2, float v3, float v4 );
-            void SetShaderConstantArrayByName( const char *name, UINT index, float v1, float v2, float v3, float v4 );
-            void SetShaderConstantDefault( const char *name );
+			void SetShaderConstantByName( const char *name, float v1, float v2, float v3, float v4 );
+			void SetShaderConstantArrayByName( const char *name, UINT index, float v1, float v2, float v3, float v4 );
+			void SetShaderConstantDefault( const char *name );
 
 			float GetXFromPixel( int x );
 			float GetYFromPixel( int y );
