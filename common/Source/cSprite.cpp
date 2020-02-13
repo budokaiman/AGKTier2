@@ -5951,6 +5951,30 @@ cSprite* cSprite::GetContactSprite2()
 	return pSprite;
 }
 
+float cSprite::GetContactNormalX() {
+	if ( !m_pContactIter ) return 0;
+	b2WorldManifold manifold;
+	m_pContactIter->contact->GetWorldManifold(&manifold);
+
+    if( m_pContactIter->contact->GetFixtureA()->GetShape()->GetType() == b2Shape::e_circle ) {
+        return -manifold.normal.x;
+    } else {
+        return manifold.normal.x;
+    }
+}
+
+float cSprite::GetContactNormalY() {
+	if ( !m_pContactIter ) return 0;
+	b2WorldManifold manifold;
+	m_pContactIter->contact->GetWorldManifold(&manifold);
+
+	if(m_pContactIter->contact->GetFixtureA()->GetShape()->GetType() == b2Shape::e_circle) {
+		return -manifold.normal.y;
+	} else {
+		return manifold.normal.y;
+	}
+}
+
 void cSprite::UpdatePhysics()
 {
 	m_lastContact = UNDEF;
