@@ -1,4 +1,5 @@
 .svn
+.suo
 AGK Help Generator
 AGK.txt
 apps/interpreter_compiler
@@ -15,3 +16,11 @@ information
 plugins
 tools
 BulletPhysicsDemos
+*.obj
+*.pdb
+*.ipch
+*.db
+*.opendb
+*.log
+*.tlog
+*.user
