@@ -22,7 +22,7 @@ void cSprite::RemoveImage( cImage *pDelImage )
 		{
 			pSprite->SwitchImage( 0 );
 		}
-		
+
 		pSprite = pSprite->m_pNextSprite;
 	}
 }
@@ -38,7 +38,7 @@ void cSprite::Reset ( void )
 
 	m_pNextSprite = UNDEF;
 
-	if ( g_pLastSprite ) 
+	if ( g_pLastSprite )
 	{
 		m_pPrevSprite = g_pLastSprite;
 		g_pLastSprite->m_pNextSprite = this;
@@ -50,7 +50,7 @@ void cSprite::Reset ( void )
 	}
 
 	g_pLastSprite = this;
-	
+
 	// reset all variables
 	m_iID		= 0;
 	m_bManaged	= false;
@@ -73,7 +73,7 @@ void cSprite::Reset ( void )
 
 	m_pBone = 0;
 	m_pSkeleton = 0;
-	
+
 	m_pImage = UNDEF;
 	for ( int i = 0; i < 8; i++ ) m_pAdditionalImages[ i ] = 0;
 	m_pFontImage = 0;
@@ -120,7 +120,7 @@ void cSprite::Reset ( void )
 	m_fFrameTimer = 0.0f;
 	m_fFrameChangeTime = 0;
 	m_pFrames = UNDEF;
-	
+
 	m_pUserData = UNDEF;
 	m_pUserInts = 0;
 	m_pUserFloats = 0;
@@ -144,7 +144,7 @@ void cSprite::Reset ( void )
 
 //****if* cSprite/Sprite
 // FUNCTION
-//   Creates an empty sprite 
+//   Creates an empty sprite
 // SOURCE
 cSprite::cSprite() : m_cShaderVariables( 32 )
 //****
@@ -179,7 +179,7 @@ cSprite::cSprite( const uString &szImage ) : m_cShaderVariables( 32 )
 
 //****if* cSprite/Sprite
 // FUNCTION
-//   Creates a sprite from an existing image. 
+//   Creates a sprite from an existing image.
 // INPUTS
 //   pImage -- a pointer to a previously loaded image, the image can be shared with any number of sprites, it will not be modified when the sprite is deleted.
 // SOURCE
@@ -230,7 +230,7 @@ cSprite::cSprite( const cSprite *pOtherSprite )
 	if ( m_bFlags & AGK_SPRITE_MANAGE_IMAGES )
 	{
 		if ( m_pImage ) m_pImage->AddSprite( this );
-		for ( int i = 0; i < 8; i++ ) 
+		for ( int i = 0; i < 8; i++ )
 		{
 			if ( m_pAdditionalImages[ i ] ) m_pAdditionalImages[ i ]->AddSprite( this );
 		}
@@ -268,7 +268,7 @@ cSprite::cSprite( const cSprite *pOtherSprite )
 	m_iNumUserFloats = 0;
 	m_iNumUserStrings = 0;
 
-	if ( g_pLastSprite ) 
+	if ( g_pLastSprite )
 	{
 		m_pPrevSprite = g_pLastSprite;
 		g_pLastSprite->m_pNextSprite = this;
@@ -363,14 +363,14 @@ cSprite::~cSprite()
 	*/
 
 	// delete any animation frames
-	if ( m_pFrames != UNDEF ) 
+	if ( m_pFrames != UNDEF )
 	{
 		if ( (m_bFlags & AGK_SPRITE_MANAGE_IMAGES) )
 		{
 			cImage *pLast = m_pImage;
 			for ( int i = 0; i < m_iFrameCount; i++ )
 			{
-				if ( m_pFrames[ i ].m_pFrameImage != pLast && m_pFrames[ i ].m_pFrameImage ) 
+				if ( m_pFrames[ i ].m_pFrameImage != pLast && m_pFrames[ i ].m_pFrameImage )
 				{
 					m_pFrames[ i ].m_pFrameImage->RemoveSprite( this );
 					pLast = m_pFrames[ i ].m_pFrameImage;
@@ -381,13 +381,13 @@ cSprite::~cSprite()
 		delete [] m_pFrames;
 	}
 
-	if ( m_phyBody ) 
+	if ( m_phyBody )
 	{
 		PrepareToClearPhysicsContacts();
 		agk::m_phyWorld->DestroyBody( m_phyBody );
 	}
 	if ( m_phyShape ) delete m_phyShape;
-	if ( m_phyAdditionalShapes ) 
+	if ( m_phyAdditionalShapes )
 	{
 		for(int i = 0; i < (int)m_iNumAdditionalShapes; i++ ) delete m_phyAdditionalShapes[i];
 		delete [] m_phyAdditionalShapes;
@@ -414,12 +414,12 @@ void cSprite::RecalcVisualRadius()
 	float furthestY = 0;
 	if ( m_fOffsetX < m_fWidth/2 ) furthestX = m_fWidth;
 	if ( m_fOffsetY < m_fHeight/2 ) furthestY = m_fHeight;
-	
+
 	float diffX = furthestX - m_fOffsetX;
 	float diffY = furthestY - m_fOffsetY;
-	
+
 	m_fVisualRadius = agk::Sqrt( diffX*diffX + diffY*diffY );
-	
+
 	if ( agk::GetStretchValue() != 1 )
 	{
 		diffX /= agk::GetStretchValue();
@@ -438,10 +438,10 @@ void cSprite::RecalcColRadius()
 		float furthestY = 0;
 		if ( m_fOffsetX < m_fWidth/2 ) furthestX = m_fWidth;
 		if ( m_fOffsetY < m_fHeight/2 ) furthestY = m_fHeight;
-		
+
 		float diffX = agk::WorldToPhyX(furthestX - m_fOffsetX);
 		float diffY = agk::WorldToPhyY(furthestY - m_fOffsetY);
-		
+
 		m_fColRadius = agk::Sqrt( diffX*diffX + diffY*diffY );
 	}
 	else
@@ -476,7 +476,7 @@ void cSprite::RecalcColRadius()
 						float dist = x*x + y*y;
 						if ( dist > maxDist ) maxDist = dist;
 					}
-					
+
 					float radius = agk::Sqrt( maxDist );
 					if ( radius > m_fColRadius ) m_fColRadius = radius;
 					break;
@@ -494,7 +494,7 @@ void cSprite::RecalcColRadius()
 						float dist = x*x + y*y;
 						if ( dist > maxDist ) maxDist = dist;
 					}
-					
+
 					float radius = agk::Sqrt( maxDist );
 					if ( radius > m_fColRadius ) m_fColRadius = radius;
 					break;
@@ -515,43 +515,43 @@ void cSprite::RecalcColRadius()
 	}
 }
 
-UINT cSprite::GetCreated ( void )			
-{ 
-	return m_iCreated; 
+UINT cSprite::GetCreated ( void )
+{
+	return m_iCreated;
 }
 
 //****if* cSprite/GetID
 // FUNCTION
 //   Returns the ID used by the agk class.
 // SOURCE
-UINT cSprite::GetID ( void )			
+UINT cSprite::GetID ( void )
 //****
-{ 
-	return m_iID; 
+{
+	return m_iID;
 }
 
 //****if* cSprite/GetX
 // FUNCTION
 //   Returns the current X coordinate of the unrotated top left corner of the sprite.
 // SOURCE
-float cSprite::GetX ( void )			
+float cSprite::GetX ( void )
 //****
-{ 
-	return m_fX - m_fOffsetX; 
+{
+	return m_fX - m_fOffsetX;
 }
 
 //****if* cSprite/GetY
 // FUNCTION
 //   Returns the current Y coordinate of the unrotated top left corner of the sprite.
 // SOURCE
-float cSprite::GetY ( void )	
+float cSprite::GetY ( void )
 //****
-{ 
-	return m_fY - m_fOffsetY; 
+{
+	return m_fY - m_fOffsetY;
 }
 
-float cSprite::GetZ ( void )	
-{ 
+float cSprite::GetZ ( void )
+{
 	return m_fZ;
 }
 
@@ -559,60 +559,60 @@ float cSprite::GetZ ( void )
 // FUNCTION
 //   Returns the current X coordinate of the sprites offset point on the screen.
 // SOURCE
-float cSprite::GetXByOffset ( void )			
+float cSprite::GetXByOffset ( void )
 //****
-{ 
-	return m_fX; 
+{
+	return m_fX;
 }
 
 //****if* cSprite/GetYByOffset
 // FUNCTION
 //   Returns the current Y coordinate of the sprites offset point on the screen.
 // SOURCE
-float cSprite::GetYByOffset ( void )	
+float cSprite::GetYByOffset ( void )
 //****
-{ 
-	return m_fY; 
+{
+	return m_fY;
 }
 
 //****if* cSprite/GetOffsetX
 // FUNCTION
 //   Returns the current X offset of the sprite.
 // SOURCE
-float cSprite::GetOffsetX ( void )			
+float cSprite::GetOffsetX ( void )
 //****
-{ 
-	return m_fOffsetX; 
+{
+	return m_fOffsetX;
 }
 
 //****if* cSprite/GetOffsetY
 // FUNCTION
 //   Returns the current Y offset of the sprite.
 // SOURCE
-float cSprite::GetOffsetY ( void )	
+float cSprite::GetOffsetY ( void )
 //****
-{ 
-	return m_fOffsetY; 
+{
+	return m_fOffsetY;
 }
 
 //****if* cSprite/GetAngle
 // FUNCTION
 //   Returns the current angle of the sprite in degrees. An angle of 90 would be a 90 degree clockwise rotation of the sprite.
 // SOURCE
-float cSprite::GetAngle ( void )	
-//****	
-{ 
-	return m_fAngle * (180.0f/PI); 
+float cSprite::GetAngle ( void )
+//****
+{
+	return m_fAngle * (180.0f/PI);
 }
 
 //****if* cSprite/GetAngleRad
 // FUNCTION
 //   Returns the current angle of the sprite in radians. An angle of PI/2 radians would be a 90 degree clockwise rotation of the sprite.
 // SOURCE
-float cSprite::GetAngleRad ( void )	
+float cSprite::GetAngleRad ( void )
 //****
-{ 
-	return m_fAngle; 
+{
+	return m_fAngle;
 }
 
 //****if* cSprite/GetWidth
@@ -620,40 +620,40 @@ float cSprite::GetAngleRad ( void )
 //   Returns the current width of the sprite in world coordinates. Rotation does not affect the width value returned.
 //   If the sprite has been scaled the width value returned will be scaled from it's original size.
 // SOURCE
-float cSprite::GetWidth ( void )	
-//****	
-{ 
+float cSprite::GetWidth ( void )
+//****
+{
 	return m_fWidth;
 }
 
 //****if* cSprite/GetHeight
 // FUNCTION
-//   Returns the current height of the sprite in world coordinates. Rotation does not affect the height value returned. 
+//   Returns the current height of the sprite in world coordinates. Rotation does not affect the height value returned.
 //   If the sprite has been scaled the height value returned will be scaled from it's original size.
 // SOURCE
-float cSprite::GetHeight ( void )	
+float cSprite::GetHeight ( void )
 //****
-{ 
-	return m_fHeight; 
+{
+	return m_fHeight;
 }
 
-float cSprite::GetScaleX( void )	
-{ 
-	return m_fWidth / m_fOrigWidth; 
+float cSprite::GetScaleX( void )
+{
+	return m_fWidth / m_fOrigWidth;
 }
 
-float cSprite::GetScaleY( void )	
-{ 
-	return m_fHeight / m_fOrigHeight; 
+float cSprite::GetScaleY( void )
+{
+	return m_fHeight / m_fOrigHeight;
 }
 
 //****if* cSprite/GetDepth
 // FUNCTION
 //   Returns the current depth of the sprite between 0-10000. 0 being the front of the screen, 10000 being the back.
 // SOURCE
-int cSprite::GetDepth ( void )		
+int cSprite::GetDepth ( void )
 //****
-{ 
+{
 	// correct for floating point inaccuracies
 	//return agk::Floor((m_fZ+0.0000001f) * 10000.0f);
 	return m_iDepth;
@@ -663,40 +663,40 @@ int cSprite::GetDepth ( void )
 // FUNCTION
 //   Returns the number of animation frames this sprite has, 0 for no animation.
 // SOURCE
-int cSprite::GetFrameCount ( void )	
+int cSprite::GetFrameCount ( void )
 //****
-{ 
-	return m_iFrameCount; 
+{
+	return m_iFrameCount;
 }
 
 //****if* cSprite/GetCurrentFrame
 // FUNCTION
 //   Returns the index of current animation frame of the sprite.
 // SOURCE
-int cSprite::GetCurrentFrame ( void ) 
+int cSprite::GetCurrentFrame ( void )
 //****
-{ 
-	return m_iCurrentFrame + 1; 
+{
+	return m_iCurrentFrame + 1;
 }
 
 //****if* cSprite/GetTransparencyMode
 // FUNCTION
 //   Returns the current transparency mode of the sprite, 0=no transparency, 1=alpha channel transparency, 2=alpha mask (on/off) transparency.
 // SOURCE
-int cSprite::GetTransparencyMode ( void ) 
+int cSprite::GetTransparencyMode ( void )
 //****
-{ 
-	return m_iTransparencyMode; 
+{
+	return m_iTransparencyMode;
 }
 
 //****if* cSprite/GetImagePtr
 // FUNCTION
 //   Returns a pointer to the current image being used on the sprite.
 // SOURCE
-cImage* cSprite::GetImagePtr ( void ) 
+cImage* cSprite::GetImagePtr ( void )
 //****
-{ 
-	return m_pImage; 
+{
+	return m_pImage;
 }
 
 //****if* cSprite/GetDepthChanged
@@ -704,12 +704,12 @@ cImage* cSprite::GetImagePtr ( void )
 //   Returns true if the depth has changed since this function was lasted called. Used by the sprite manager class.
 //   Clears the depth changed flag
 // SOURCE
-bool cSprite::GetDepthChanged( void ) 
+bool cSprite::GetDepthChanged( void )
 //****
-{ 
-	bool bResult = (m_bFlags & AGK_SPRITE_DEPTHCHANGED) != 0; 
+{
+	bool bResult = (m_bFlags & AGK_SPRITE_DEPTHCHANGED) != 0;
 	m_bFlags &= ~AGK_SPRITE_DEPTHCHANGED;
-	return bResult; 
+	return bResult;
 }
 
 //****if* cSprite/CheckDepthChanged
@@ -717,11 +717,11 @@ bool cSprite::GetDepthChanged( void )
 //   Returns true if the depth has changed since this function was lasted called. Used by the sprite manager class.
 //   Does not clear the depth changed flag
 // SOURCE
-bool cSprite::CheckDepthChanged( void ) 
+bool cSprite::CheckDepthChanged( void )
 //****
-{ 
-	bool bResult = (m_bFlags & AGK_SPRITE_DEPTHCHANGED) != 0; 
-	return bResult; 
+{
+	bool bResult = (m_bFlags & AGK_SPRITE_DEPTHCHANGED) != 0;
+	return bResult;
 }
 
 //****if* cSprite/GetTextureChanged
@@ -729,12 +729,12 @@ bool cSprite::CheckDepthChanged( void )
 //   Returns true if the texture has changed since this function was lasted called. Used by the sprite manager class.
 //   Clears the changed flag
 // SOURCE
-bool cSprite::GetTextureChanged( void ) 
+bool cSprite::GetTextureChanged( void )
 //****
-{ 
-	bool bResult = (m_bFlags & AGK_SPRITE_TEXCHANGED) != 0; 
+{
+	bool bResult = (m_bFlags & AGK_SPRITE_TEXCHANGED) != 0;
 	m_bFlags &= ~AGK_SPRITE_TEXCHANGED;
-	return bResult; 
+	return bResult;
 }
 
 //****if* cSprite/CheckTextureChanged
@@ -742,23 +742,23 @@ bool cSprite::GetTextureChanged( void )
 //   Returns true if the texture has changed since this function was lasted called. Used by the sprite manager class.
 //   Does not clear the changed flag
 // SOURCE
-bool cSprite::CheckTextureChanged( void ) 
+bool cSprite::CheckTextureChanged( void )
 //****
-{ 
-	bool bResult = (m_bFlags & AGK_SPRITE_TEXCHANGED) != 0; 
-	return bResult; 
+{
+	bool bResult = (m_bFlags & AGK_SPRITE_TEXCHANGED) != 0;
+	return bResult;
 }
 
 //****if* cSprite/GetTransparencyChanged
 // FUNCTION
 //   Returns true if the transparency mode has changed since this function was lasted called. Used by the sprite manager class.
 // SOURCE
-bool cSprite::GetTransparencyChanged( void ) 
+bool cSprite::GetTransparencyChanged( void )
 //****
-{ 
-	bool bResult = (m_bFlags & AGK_SPRITE_TRANSCHANGED) != 0; 
+{
+	bool bResult = (m_bFlags & AGK_SPRITE_TRANSCHANGED) != 0;
 	m_bFlags &= ~AGK_SPRITE_TRANSCHANGED;
-	return bResult; 
+	return bResult;
 }
 
 //****if* cSprite/GetVisible
@@ -766,16 +766,16 @@ bool cSprite::GetTransparencyChanged( void )
 //   Returns true if the sprite is currently visible.
 // SOURCE
 bool cSprite::GetVisible( void )
-//****		
-{ 
-	return (m_bFlags & AGK_SPRITE_VISIBLE) != 0; 
+//****
+{
+	return (m_bFlags & AGK_SPRITE_VISIBLE) != 0;
 }
 
 bool cSprite::GetInScreen( void )
-//****		
-{ 
+//****
+{
 	//float stretch = agk::m_fStretchValue;
-	
+
 	/*
 	float fMinX = 10000000;
 	float fMinY = 10000000;
@@ -790,7 +790,7 @@ bool cSprite::GetInScreen( void )
 		x = agk::WorldToScreenX( x );
 		y = agk::WorldToScreenY( y );
 	}
-	
+
 	if ( x < fMinX ) fMinX = x;
 	if ( x > fMaxX ) fMaxX = x;
 	if ( y < fMinY ) fMinY = y;
@@ -824,7 +824,7 @@ bool cSprite::GetInScreen( void )
 		x = agk::WorldToScreenX( x );
 		y = agk::WorldToScreenY( y );
 	}
-	
+
 	if ( x < fMinX ) fMinX = x;
 	if ( x > fMaxX ) fMaxX = x;
 	if ( y < fMinY ) fMinY = y;
@@ -841,12 +841,12 @@ bool cSprite::GetInScreen( void )
 		x = agk::WorldToScreenX( x );
 		y = agk::WorldToScreenY( y );
 	}
-	
+
 	if ( x < fMinX ) fMinX = x;
 	if ( x > fMaxX ) fMaxX = x;
 	if ( y < fMinY ) fMinY = y;
 	if ( y > fMaxY ) fMaxY = y;
-	 
+
 	if ( fMaxX < 0 ) return false;
 	if ( fMaxY < 0 ) return false;
 	if ( fMinX > agk::GetVirtualWidth() ) return false;
@@ -866,18 +866,18 @@ bool cSprite::GetInScreen( void )
 		if ( m_pBone->worldSY > m_pBone->worldSX ) largestScale = m_pBone->worldSY;
 		radius = m_fVisualRadius * largestScale;
 	}
-	
+
 	if ( (m_bFlags & AGK_SPRITE_SCROLL) > 0 )
 	{
 		float x = agk::WorldToScreenX( fX2 + radius );
 		if ( x < agk::GetScreenBoundsLeft() ) return false;
-		
+
 		x = agk::WorldToScreenX( fX2 - radius );
 		if ( x > agk::GetScreenBoundsRight() ) return false;
-		
+
 		float y = agk::WorldToScreenY( fY2 + radius );
 		if ( y < agk::GetScreenBoundsTop() ) return false;
-		
+
 		y = agk::WorldToScreenY( fY2 - radius );
 		if ( y > agk::GetScreenBoundsBottom() ) return false;
 	}
@@ -885,18 +885,18 @@ bool cSprite::GetInScreen( void )
 	{
 		float x = fX2 + radius;
 		if ( x < agk::GetScreenBoundsLeft() ) return false;
-		
+
 		x = fX2 - radius;
 		if ( x > agk::GetScreenBoundsRight() ) return false;
-			
+
 		float y = fY2 + radius;
 		if ( y < agk::GetScreenBoundsTop() ) return false;
-		
+
 		y = fY2 - radius;
 		if ( y > agk::GetScreenBoundsBottom() ) return false;
 	}
-	
-	return true; 
+
+	return true;
 }
 
 //****if* cSprite/GetActive
@@ -904,9 +904,9 @@ bool cSprite::GetInScreen( void )
 //   Returns true if the sprite is currently set to update its animation, physics, and other properties.
 // SOURCE
 bool cSprite::GetActive( void )
-//****		
-{ 
-	return (m_bFlags & AGK_SPRITE_ACTIVE) != 0; 
+//****
+{
+	return (m_bFlags & AGK_SPRITE_ACTIVE) != 0;
 }
 
 //****if* cSprite/GetHitTest
@@ -1069,7 +1069,7 @@ float cSprite::GetWorldXFromPoint( float x, float y )
 	// test
 	float fSinA = agk::SinRad(m_fAngle);
 	float fCosA = agk::CosRad(m_fAngle);
-	
+
 	float worldX = m_fX + (x*fCosA - y*fSinA);
 	return worldX;
 }
@@ -1079,7 +1079,7 @@ float cSprite::GetWorldYFromPoint( float x, float y )
 	// test
 	float fSinA = agk::SinRad(m_fAngle);
 	float fCosA = agk::CosRad(m_fAngle);
-	
+
 	float worldY = m_fY + (y*fCosA + x*fSinA);
 	return worldY;
 }
@@ -1132,18 +1132,18 @@ void cSprite::SetScaleByOffset( float x, float y )
 	m_fWidth = m_fOrigWidth * x;
 	m_fHeight = m_fOrigHeight * y;
 
-	// shapes use a relative scale factor, this *may* make the shape slowly drift out of sync with 
+	// shapes use a relative scale factor, this *may* make the shape slowly drift out of sync with
 	// the true scale size if lots of scaling is done.
 	float diffX = m_fWidth / oldWidth;
 	float diffY = m_fHeight / oldHeight;
 
 	m_fOffsetX = m_fOffsetX * diffX;
 	m_fOffsetY = m_fOffsetY * diffY;
-	
+
 	RecalcVisualRadius();
 
 	// scale any sprite shape
-	if ( !m_phyShape ) 
+	if ( !m_phyShape )
 	{
 		RecalcColRadius();
 		return;
@@ -1241,7 +1241,7 @@ void cSprite::SetName( const char* name )
 
 //****if* cSprite/SetID
 // FUNCTION
-//   Used by the AGK to record which ID created this sprite. If not using IDs this function can be 
+//   Used by the AGK to record which ID created this sprite. If not using IDs this function can be
 //   used to store any 32 bit value.
 // INPUTS
 //   id -- The value to store
@@ -1305,7 +1305,7 @@ void cSprite::SetRed ( UINT iRed )
 //****
 {
 	if ( iRed > 255 ) iRed = 255;
-	
+
 	m_iColor &= 0x00ffffff;
 	m_iColor |= iRed << 24;
 }
@@ -1314,7 +1314,7 @@ void cSprite::SetGreen ( UINT iGreen )
 //****
 {
 	if ( iGreen > 255 ) iGreen = 255;
-	
+
 	m_iColor &= 0xff00ffff;
 	m_iColor |= iGreen << 16;
 }
@@ -1323,7 +1323,7 @@ void cSprite::SetBlue ( UINT iBlue )
 //****
 {
 	if ( iBlue > 255 ) iBlue = 255;
-	
+
 	m_iColor &= 0xffff00ff;
 	m_iColor |= iBlue << 8;
 }
@@ -1332,7 +1332,7 @@ void cSprite::SetAlpha ( UINT iAlpha )
 //****
 {
 	if ( iAlpha > 255 ) iAlpha = 255;
-	
+
 	m_iColor &= 0xffffff00;
 	m_iColor |= iAlpha;
 
@@ -1373,7 +1373,7 @@ void cSprite::SetFlip( int horz, int vert )
 			{
 				int vertexCount = ((b2PolygonShape*)pShape)->m_vertexCount;
 				b2Vec2 *vertices = ((b2PolygonShape*)pShape)->m_vertices;
-		
+
 				if ( ((horz ^ currHorz) ^ (vert ^ currVert)) != 0 )
 				{
 					// change winding order
@@ -1390,14 +1390,14 @@ void cSprite::SetFlip( int horz, int vert )
 					}
 				}
 
-		
+
 				for ( int i = 0; i < vertexCount; i++ )
 				{
 					if ( (horz ^ currHorz) != 0 ) vertices[ i ].x = -vertices[ i ].x;
 					if ( (vert ^ currVert) != 0 ) vertices[ i ].y = -vertices[ i ].y;
 				}
 
-				((b2PolygonShape*)pShape)->Set( vertices, vertexCount ); 
+				((b2PolygonShape*)pShape)->Set( vertices, vertexCount );
 				break;
 			}
 
@@ -1405,7 +1405,7 @@ void cSprite::SetFlip( int horz, int vert )
 			{
 				int vertexCount = ((b2ChainShape*)pShape)->GetVertexCount();
 				b2Vec2 *vertices = ((b2ChainShape*)pShape)->GetVerticesRW();
-		
+
 				for ( int i = 0; i < vertexCount; i++ )
 				{
 					if ( (horz ^ currHorz) != 0 ) vertices[ i ].x = -vertices[ i ].x;
@@ -1432,7 +1432,7 @@ void cSprite::SetFlip( int horz, int vert )
 //   Turns on a special render mode that keeps the sprite on whole pixels only so it does not draw itself
 //   across pixel boundaries which may cause flickering as the sprite moves across the screen.
 //   As a consequence this may make the sprite appear to jump from the one pixel to the next as it moves
-//   instead of smoothly moving across the screen. If the sprite has alpha blended pixels along its edge 
+//   instead of smoothly moving across the screen. If the sprite has alpha blended pixels along its edge
 //   then snapping is not required and can be turned off. By default this is turned on.
 // INPUTS
 //   snap -- 1 to turn snapping on, 0 to turn it off
@@ -1448,12 +1448,12 @@ void cSprite::SetManageImages( int mode )
 {
 	if ( mode == 0 && (m_bFlags & AGK_SPRITE_MANAGE_IMAGES) )
 	{
-		if ( m_pFrames != UNDEF ) 
+		if ( m_pFrames != UNDEF )
 		{
 			cImage *pLast = m_pImage;
 			for ( int i = 0; i < m_iFrameCount; i++ )
 			{
-				if ( m_pFrames[ i ].m_pFrameImage != pLast && m_pFrames[ i ].m_pFrameImage ) 
+				if ( m_pFrames[ i ].m_pFrameImage != pLast && m_pFrames[ i ].m_pFrameImage )
 				{
 					if ( m_pFrames[ i ].m_pFrameImage ) m_pFrames[ i ].m_pFrameImage->RemoveSprite( this );
 					pLast = m_pFrames[ i ].m_pFrameImage;
@@ -1466,12 +1466,12 @@ void cSprite::SetManageImages( int mode )
 
 	if ( mode > 0 && !(m_bFlags & AGK_SPRITE_MANAGE_IMAGES) )
 	{
-		if ( m_pFrames != UNDEF ) 
+		if ( m_pFrames != UNDEF )
 		{
 			cImage *pLast = m_pImage;
 			for ( int i = 0; i < m_iFrameCount; i++ )
 			{
-				if ( m_pFrames[ i ].m_pFrameImage != pLast && m_pFrames[ i ].m_pFrameImage ) 
+				if ( m_pFrames[ i ].m_pFrameImage != pLast && m_pFrames[ i ].m_pFrameImage )
 				{
 					if ( m_pFrames[ i ].m_pFrameImage ) m_pFrames[ i ].m_pFrameImage->AddSprite( this );
 					pLast = m_pFrames[ i ].m_pFrameImage;
@@ -1488,10 +1488,10 @@ void cSprite::SetManageImages( int mode )
 
 //****if* cSprite/SetPosition
 // FUNCTION
-//   Immediately positions the specified sprite to the given X,Y world coordinates. The default coordinate system has 0,0 as 
+//   Immediately positions the specified sprite to the given X,Y world coordinates. The default coordinate system has 0,0 as
 //   the top left corner, and 100,100 as the bottom right hand corner of the screen. This function always positions the sprite
-//   using its top left corner, regardless of the current sprite offset. The top left corner used to position the sprite does 
-//   not rotate with the sprite, for example as the sprite rotates around its center the imaginary top left corner remains 
+//   using its top left corner, regardless of the current sprite offset. The top left corner used to position the sprite does
+//   not rotate with the sprite, for example as the sprite rotates around its center the imaginary top left corner remains
 //   fixed and the sprite's position value does not change.
 //
 //   Changing the position of physics sprites once they have been setup is not a simple process and may cause a performance hit.
@@ -1516,7 +1516,7 @@ void cSprite::SetPosition ( float fX, float fY )
 		m_phyBody->m_xf.p.Set( agk::WorldToPhyX(m_fX), agk::WorldToPhyY(m_fY) );
 		m_phyBody->m_sweep.c0 = m_phyBody->m_sweep.c = b2Mul(m_phyBody->m_xf, m_phyBody->m_sweep.localCenter);
 		m_phyBody->m_linearVelocity.Set( 0, 0 );
-		if ( bIsActive ) 
+		if ( bIsActive )
 		{
 			m_phyBody->SetActive( true );
 			m_phyBody->SetAwake( true );
@@ -1526,9 +1526,9 @@ void cSprite::SetPosition ( float fX, float fY )
 
 //****if* cSprite/SetPositionByOffset
 // FUNCTION
-//   Immediately positions the specified sprite to the given X,Y world coordinates. The default coordinate system has 0,0 as 
+//   Immediately positions the specified sprite to the given X,Y world coordinates. The default coordinate system has 0,0 as
 //   the top left corner, and 100,100 as the bottom right hand corner of the screen. This function always positions the sprite
-//   using its current offset. For example if the current offset is the center of the sprite this command will place the 
+//   using its current offset. For example if the current offset is the center of the sprite this command will place the
 //   center of the sprite at the given coordinates.
 //
 //   Changing the position of physics sprites once they have been setup is not a simple process and may cause a performance hit.
@@ -1553,7 +1553,7 @@ void cSprite::SetPositionByOffset ( float fX, float fY )
 		m_phyBody->m_xf.p.Set( agk::WorldToPhyX(m_fX), agk::WorldToPhyY(m_fY) );
 		m_phyBody->m_sweep.c0 = m_phyBody->m_sweep.c = b2Mul(m_phyBody->m_xf, m_phyBody->m_sweep.localCenter);
 		m_phyBody->m_linearVelocity.Set( 0, 0 );
-		if ( bIsActive ) 
+		if ( bIsActive )
 		{
 			m_phyBody->SetActive( true );
 			m_phyBody->SetAwake( true );
@@ -1563,7 +1563,7 @@ void cSprite::SetPositionByOffset ( float fX, float fY )
 
 //****if* cSprite/SetX
 // FUNCTION
-//   Immediately positions the specified sprite to the given X coordinate. The default coordinate system has 0,0 as 
+//   Immediately positions the specified sprite to the given X coordinate. The default coordinate system has 0,0 as
 //   the top left corner, and 100,100 as the bottom right hand corner of the screen. This command positions the sprite
 //   using its top left corner.
 //
@@ -1586,7 +1586,7 @@ void cSprite::SetX ( float fX )
 		m_phyBody->m_xf.p.Set( agk::WorldToPhyX(m_fX), agk::WorldToPhyY(m_fY) );
 		m_phyBody->m_sweep.c0 = m_phyBody->m_sweep.c = b2Mul(m_phyBody->m_xf, m_phyBody->m_sweep.localCenter);
 		m_phyBody->m_linearVelocity.Set( 0, 0 );
-		if ( bIsActive ) 
+		if ( bIsActive )
 		{
 			m_phyBody->SetActive( true );
 			m_phyBody->SetAwake( true );
@@ -1596,7 +1596,7 @@ void cSprite::SetX ( float fX )
 
 //****if* cSprite/SetY
 // FUNCTION
-//   Immediately positions the specified sprite to the given Y coordinate. The default coordinate system has 0,0 as 
+//   Immediately positions the specified sprite to the given Y coordinate. The default coordinate system has 0,0 as
 //   the top left corner, and 100,100 as the bottom right hand corner of the screen. This command positions the sprite
 //   using its top left corner.
 //
@@ -1619,7 +1619,7 @@ void cSprite::SetY ( float fY )
 		m_phyBody->m_xf.p.Set( agk::WorldToPhyX(m_fX), agk::WorldToPhyY(m_fY) );
 		m_phyBody->m_sweep.c0 = m_phyBody->m_sweep.c = b2Mul(m_phyBody->m_xf, m_phyBody->m_sweep.localCenter);
 		m_phyBody->m_linearVelocity.Set( 0, 0 );
-		if ( bIsActive ) 
+		if ( bIsActive )
 		{
 			m_phyBody->SetActive( true );
 			m_phyBody->SetAwake( true );
@@ -1631,7 +1631,7 @@ void cSprite::SetZ ( float fZ )
 {
 	m_fZ = fZ;
 	m_iDepth = agk::Round((m_fZ+0.000001f)*10000);
-	
+
 	m_bFlags |= AGK_SPRITE_DEPTHCHANGED;
 }
 
@@ -1656,7 +1656,7 @@ void cSprite::SetAngle( float fAngle )
 		m_phyBody->m_xf.q.Set( m_fAngle );
 		m_phyBody->m_sweep.a0 = m_phyBody->m_sweep.a = m_fAngle;
 		m_phyBody->m_angularVelocity = 0;
-		if ( bIsActive ) 
+		if ( bIsActive )
 		{
 			m_phyBody->SetActive( true );
 			m_phyBody->SetAwake( true );
@@ -1685,7 +1685,7 @@ void cSprite::SetAngleRad( float fAngle )
 		m_phyBody->m_xf.q.Set( m_fAngle );
 		m_phyBody->m_sweep.a0 = m_phyBody->m_sweep.a = m_fAngle;
 		m_phyBody->m_angularVelocity = 0;
-		if ( bIsActive ) 
+		if ( bIsActive )
 		{
 			m_phyBody->SetActive( true );
 			m_phyBody->SetAwake( true );
@@ -1713,12 +1713,12 @@ void cSprite::SetDepth ( int iDepth )
 
 //****if* cSprite/SetSize
 // FUNCTION
-//   Sets the sprite to a new width and height. In the default coordinate system a width and height of 100,100 
-//   would fill the entire drawable screen. If either width or height is set, with the other set to -1, the -1 
-//   value will be recalculated to maintain the image's aspect ratio so it doesn't look stretched. If both 
-//   width AND height are set to -1, then the sprite will take on the width of the assigned image and calculate 
-//   its height so it isn't stretched. This function recalculates the sprite's collision shape, which can be a 
-//   costly process for circle and polygon shapes. A more efficient way to change the size of a sprite is to 
+//   Sets the sprite to a new width and height. In the default coordinate system a width and height of 100,100
+//   would fill the entire drawable screen. If either width or height is set, with the other set to -1, the -1
+//   value will be recalculated to maintain the image's aspect ratio so it doesn't look stretched. If both
+//   width AND height are set to -1, then the sprite will take on the width of the assigned image and calculate
+//   its height so it isn't stretched. This function recalculates the sprite's collision shape, which can be a
+//   costly process for circle and polygon shapes. A more efficient way to change the size of a sprite is to
 //   scale it using the SetScale() function. This function resets the scale of the sprite.
 // INPUTS
 //   fWidth -- the width to use for the sprite, use -1 to have this value calculated.
@@ -1742,7 +1742,7 @@ void cSprite::SetSize ( float fWidth, float fHeight, bool bUpdateShape )
 			if ( m_iFrameCount > 0 ) fWidth = (float) m_iFrameWidth;
 			else fWidth = (float) m_pImage->GetWidth();// * agk::GetVirtualWidth() / (float) agk::m_iRenderWidth;
 		}
-		
+
 		fHeight = -1;
 		m_bFlags |= AGK_SPRITE_WIDTHCALC;
 		m_bFlags |= AGK_SPRITE_HEIGHTCALC;
@@ -1809,7 +1809,7 @@ void cSprite::SetSize ( float fWidth, float fHeight, bool bUpdateShape )
 		m_fOffsetX *= diffX;
 		m_fOffsetY *= diffY;
 	}
-	else 
+	else
 	{
 		m_fOffsetX = m_fWidth / 2.0f;
 		m_fOffsetY = m_fHeight / 2.0f;
@@ -1819,9 +1819,9 @@ void cSprite::SetSize ( float fWidth, float fHeight, bool bUpdateShape )
 	{
 		SetPosition( oldX, oldY );
 	}
-	
+
 	RecalcVisualRadius();
-	
+
 	if ( bUpdateShape ) SetShape( m_eShape );
 	if ( !m_phyShape ) RecalcColRadius();
 }
@@ -1842,7 +1842,7 @@ void cSprite::SetImage( const uString &szImage, bool bUpdateCollisionShape )
 		if ( m_pImage != UNDEF && !m_pImage->IsDeleting() ) delete m_pImage;
 		m_pImage = UNDEF;
 	}
-	
+
 	cImage* pOldImage = m_pImage;
 
 	// set sprite to use image named, unshared image
@@ -1852,7 +1852,7 @@ void cSprite::SetImage( const uString &szImage, bool bUpdateCollisionShape )
 	CheckAndRemoveImage( pOldImage );
 
 	CheckTransparency();
-	
+
 	/*
 	// leefix - 131212 - LoadSprite does not reveal GetSpriteImageID(), so create image number for it!
 	// reverted BAG hack as it caused a crash with virtual joysticks
@@ -1937,16 +1937,16 @@ void cSprite::CheckTransparency()
 	if ( (m_bFlags & AGK_SPRITE_FORCE_TRANSPARENCY) != 0 ) return;
 
 	// check color first
-	if ( (m_iColor & 0xff) < 0xff ) 
+	if ( (m_iColor & 0xff) < 0xff )
 	{
-		if ( m_iTransparencyMode != 1 ) 
+		if ( m_iTransparencyMode != 1 )
 		{
 			m_iTransparencyMode = 1;
 			m_bFlags |= AGK_SPRITE_TRANSCHANGED;
 		}
 		return;
 	}
-		
+
 	bool bFound = false;
 	if ( m_pImage && m_pImage->IsTransparent() ) bFound = true;
 	else
@@ -1961,17 +1961,17 @@ void cSprite::CheckTransparency()
 		}
 	}
 
-	if ( bFound ) 
+	if ( bFound )
 	{
-		if ( m_iTransparencyMode != 1 ) 
+		if ( m_iTransparencyMode != 1 )
 		{
 			m_iTransparencyMode = 1;
 			m_bFlags |= AGK_SPRITE_TRANSCHANGED;
 		}
 	}
-	else 
+	else
 	{
-		if ( m_iTransparencyMode != 0 ) 
+		if ( m_iTransparencyMode != 0 )
 		{
 			m_iTransparencyMode = 0;
 			m_bFlags |= AGK_SPRITE_TRANSCHANGED;
@@ -2030,14 +2030,14 @@ void cSprite::SetImage( cImage* pImage, bool bUpdateCollisionShape )
 		m_fUVBorder = 0;
 	}
 
-	if ( !(m_bFlags & AGK_SPRITE_CUSTOM_SHADER) ) 
+	if ( !(m_bFlags & AGK_SPRITE_CUSTOM_SHADER) )
 	{
 		if ( m_pImage ) m_pShader = AGKShader::g_pShaderTexColor;
 		else m_pShader = AGKShader::g_pShaderColor;
 	}
 
 	if ( bUpdateCollisionShape && (m_eShape == eCircle || m_eShape == ePolygon) ) SetShape( m_eShape );
-	
+
 	// change sprite dimensions to image width and height
 	//m_fWidth  = (float) m_pImage->GetWidth();
 	//m_fHeight = (float) m_pImage->GetHeight();
@@ -2088,7 +2088,7 @@ void cSprite::SwitchImage( cImage* pImage, bool bUpdateCollisionShape )
 		m_fUVBorder = 0;
 	}
 
-	if ( !(m_bFlags & AGK_SPRITE_CUSTOM_SHADER) ) 
+	if ( !(m_bFlags & AGK_SPRITE_CUSTOM_SHADER) )
 	{
 		if ( m_pImage ) m_pShader = AGKShader::g_pShaderTexColor;
 		else m_pShader = AGKShader::g_pShaderColor;
@@ -2174,7 +2174,7 @@ void cSprite::SetUserInt( int index, int value )
 		return;
 	}
 
-	if ( index >= m_iNumUserInts ) 
+	if ( index >= m_iNumUserInts )
 	{
 		int newSize = m_iNumUserInts + m_iNumUserInts/2;
 		if ( newSize < 4 ) newSize = 4;
@@ -2205,7 +2205,7 @@ void cSprite::SetUserFloat( int index, float value )
 		return;
 	}
 
-	if ( index >= m_iNumUserFloats ) 
+	if ( index >= m_iNumUserFloats )
 	{
 		int newSize = m_iNumUserFloats + m_iNumUserFloats/2;
 		if ( newSize < 4 ) newSize = 4;
@@ -2236,7 +2236,7 @@ void cSprite::SetUserString( int index, const uString& value )
 		return;
 	}
 
-	if ( index >= m_iNumUserStrings ) 
+	if ( index >= m_iNumUserStrings )
 	{
 		int newSize = m_iNumUserStrings + m_iNumUserStrings/2;
 		if ( newSize < 4 ) newSize = 4;
@@ -2265,7 +2265,7 @@ void cSprite::SetFontImage( AGKFontImage *pFontImage, float scale )
 
 	if ( m_pFontImage ) m_pFontImage->Release();
 	m_pFontImage = pFontImage;
-	if ( m_pFontImage ) 
+	if ( m_pFontImage )
 	{
 		m_pFontImage->AddRef();
 
@@ -2275,7 +2275,7 @@ void cSprite::SetFontImage( AGKFontImage *pFontImage, float scale )
 		{
 			float VwDw = agk::DeviceToDisplayRatioX();
 			float VhDh = agk::DeviceToDisplayRatioY();
-			
+
 			float width = m_pFontImage->m_pImage->GetWidth() * VwDw * scale;
 			float height = m_pFontImage->m_pImage->GetHeight() * VhDh * scale;
 			SetSize( width, height );
@@ -2307,7 +2307,7 @@ void cSprite::SetAnimation ( int iFrameWidth, int iFrameHeight, int iFrameCount 
 //****
 {
 	// delete old frames
-	if ( m_pFrames != UNDEF ) 
+	if ( m_pFrames != UNDEF )
 	{
 		if ( (m_bFlags & AGK_SPRITE_MANAGE_IMAGES) )
 		{
@@ -2325,7 +2325,7 @@ void cSprite::SetAnimation ( int iFrameWidth, int iFrameHeight, int iFrameCount 
 
 	if ( iFrameCount == 0 ) return;
 	if ( m_pImage == UNDEF ) return;
-	
+
 	// total size is the size of any atlas texture being used, used for calculating UV coords
 	int imageTotalWidth = m_pImage->GetTotalWidth();
 	int imageTotalHeight = m_pImage->GetTotalHeight();
@@ -2347,7 +2347,7 @@ void cSprite::SetAnimation ( int iFrameWidth, int iFrameHeight, int iFrameCount 
 	}
 	*/
 
-	if ( iFrameWidth > m_pImage->GetWidth() || iFrameHeight > m_pImage->GetHeight() ) 
+	if ( iFrameWidth > m_pImage->GetWidth() || iFrameHeight > m_pImage->GetHeight() )
 	{
 #ifdef _AGK_ERROR_CHECK
 		uString errStr( "Image is not big enough to have that many animation frames ", 100 ); errStr.Append( m_pImage->GetPath() );
@@ -2361,7 +2361,7 @@ void cSprite::SetAnimation ( int iFrameWidth, int iFrameHeight, int iFrameCount 
 
 	// load new frames
 	m_pFrames = new cSpriteFrame[ m_iFrameArraySize ];
-	
+
 	int count = 0;
 	for ( int i = 0; i < iFrameCount; i++ )
 	{
@@ -2417,7 +2417,7 @@ void cSprite::SetAnimation ( int iFrameWidth, int iFrameHeight, int iFrameCount 
 	float oldScaleX = m_fWidth / m_fOrigWidth;
 	float oldScaleY = m_fHeight / m_fOrigHeight;
 	SetSize( fNewWidth, fNewHeight );
-	if ( oldScaleX != 1 || oldScaleY != 1 ) 
+	if ( oldScaleX != 1 || oldScaleY != 1 )
 	{
 		if ( m_bFlags & AGK_SPRITE_POSTOPLEFT ) SetScale( oldScaleX, oldScaleY );
 		else SetScaleByOffset( oldScaleX, oldScaleY );
@@ -2429,7 +2429,7 @@ void cSprite::AppendAnimation ( cImage *pImage, int iFrameWidth, int iFrameHeigh
 {
 	if ( iFrameCount == 0 ) return;
 	if ( pImage == UNDEF ) return;
-		
+
 	// total size is the size of any atlas texture being used, used for calculating UV coords
 	int imageTotalWidth = pImage->GetTotalWidth();
 	int imageTotalHeight = pImage->GetTotalHeight();
@@ -2441,7 +2441,7 @@ void cSprite::AppendAnimation ( cImage *pImage, int iFrameWidth, int iFrameHeigh
 	int endY = (int) (pImage->GetV2() * imageTotalHeight);
 
 	/*
-	if ( iFrameWidth > pImage->GetWidth() || iFrameHeight > pImage->GetHeight() ) 
+	if ( iFrameWidth > pImage->GetWidth() || iFrameHeight > pImage->GetHeight() )
 	{
 #ifdef _AGK_ERROR_CHECK
 		uString errStr( "Image does not contain enough animation frames ", 100 ); errStr.Append( pImage->GetPath() );
@@ -2473,7 +2473,7 @@ void cSprite::AppendAnimation ( cImage *pImage, int iFrameWidth, int iFrameHeigh
 		m_pFrames = pNewFrames;
 		m_iFrameArraySize = newFrameCount;
 	}
-	
+
 	int count = 0;
 	for ( int i = m_iFrameCount; i < newFrameCount; i++ )
 	{
@@ -2573,7 +2573,7 @@ void cSprite::AddAnimationFrame( cImage *pImage )
 	if ( !m_pImage ) SwitchImage( pImage );
 
     m_iFrameCount++;
-	
+
 	if ( m_iFrameCount == 1 && (m_iFrameWidth != pImage->GetWidth() || m_iFrameHeight != pImage->GetHeight()) )
 	{
 		m_iFrameWidth = pImage->GetWidth();
@@ -2614,7 +2614,7 @@ void cSprite::SetFrame( int iFrame )
 		return;
 	}
 
-	if ( iFrame < 1 ) 
+	if ( iFrame < 1 )
 	{
 		//iFrame = 1;
 #ifdef _AGK_ERROR_CHECK
@@ -2625,7 +2625,7 @@ void cSprite::SetFrame( int iFrame )
 		iFrame = 1;
 	}
 
-	if ( iFrame > m_iFrameCount ) 
+	if ( iFrame > m_iFrameCount )
 	{
 		//iFrame = m_iFrameCount;
 #ifdef _AGK_ERROR_CHECK
@@ -2639,10 +2639,10 @@ void cSprite::SetFrame( int iFrame )
 	// shift from base 1 to base 0 indexing, internally frames start at 0, externally they start at 1
 	m_iCurrentFrame = iFrame - 1;
 
-	if ( m_pFrames[ m_iCurrentFrame ].m_pFrameImage != m_pImage ) 
+	if ( m_pFrames[ m_iCurrentFrame ].m_pFrameImage != m_pImage )
 	{
 		SwitchImage( m_pFrames[ m_iCurrentFrame ].m_pFrameImage, false );
-		
+
 		if ( m_iFrameWidth != m_pFrames[ m_iCurrentFrame ].m_iWidth || m_iFrameHeight != m_pFrames[ m_iCurrentFrame ].m_iHeight )
 		{
 			m_iFrameWidth = m_pFrames[ m_iCurrentFrame ].m_iWidth;
@@ -2666,7 +2666,7 @@ void cSprite::SetFrame( int iFrame )
 void cSprite::ClearAnimationFrames()
 //****
 {
-	if ( m_pFrames ) 
+	if ( m_pFrames )
 	{
 		if ( (m_bFlags & AGK_SPRITE_MANAGE_IMAGES) )
 		{
@@ -2698,7 +2698,7 @@ void cSprite::SetSpeed ( float fFps )
 	if ( fFps <= 0 ) fFps = 0.001f;
 
 	m_fFrameChangeTime = 1.0f / fFps;
-	
+
 	// If the change in speed would cause a lot of frame skipping only move 1 frame before continuing
 	if ( m_fFrameTimer > m_fFrameChangeTime ) m_fFrameTimer = m_fFrameChangeTime;
 }
@@ -2719,11 +2719,11 @@ void cSprite::Play ( float fFps, bool bLoop, int iStart, int iEnd )
 
 	// minimum speed of 1 frame every 1000 seconds
 	if ( fFps <= 0 ) fFps = 0.001f;
-	
+
 	m_fFrameChangeTime = 1.0f / fFps;
 	if ( bLoop ) m_bFlags |= AGK_SPRITE_LOOP;
 	else m_bFlags &= ~AGK_SPRITE_LOOP;
-	
+
 	if ( iStart < 1 ) m_iFrameStart = 0;
 	else if ( iStart > m_iFrameCount ) m_iFrameStart = m_iFrameCount - 1;
 	else m_iFrameStart = iStart - 1;
@@ -2751,7 +2751,7 @@ void cSprite::Stop()
 
 //****if* cSprite/Resume
 // FUNCTION
-//   Resumes the sprite animation using the values last used to set it up, resumes from the current frame 
+//   Resumes the sprite animation using the values last used to set it up, resumes from the current frame
 //   rather than starting again at the first frame.
 // SOURCE
 void cSprite::Resume()
@@ -2801,7 +2801,7 @@ void cSprite::SetTransparency ( int mode )
 //   The offset point is the point that the sprite will rotate around, with (0,0) being the top left corner and (width,height)
 //   being the bottom right corner. The offset can also be used to position the sprite using SetPositionByOffset(), whilst
 //   SetPosition() will always position the sprite using its top left corner. By default the offset position is set to the
-//   center of the sprite. If the sprite is scaled remember to take the scale into account, a sprite created as 10 by 10 units 
+//   center of the sprite. If the sprite is scaled remember to take the scale into account, a sprite created as 10 by 10 units
 //   wide scaled by 0.5 will have a bottom right corner at 5,5 so to position the offset in the center would mean placing it
 //   at 2.5,2.5, when the sprite is scale back up the offset point will scale with it to maintain its relative position (in this
 //   example the offset point would still be in teh center)
@@ -2826,7 +2826,7 @@ void cSprite::SetOffset ( float x, float y )
 	m_fOffsetX = x;
 	m_fOffsetY = y;
 	m_bFlags |= AGK_SPRITE_MANUALOFFSET;
-	
+
 	RecalcVisualRadius();
 	if ( !m_phyShape ) RecalcColRadius();
 
@@ -2840,13 +2840,13 @@ void cSprite::SetOffset ( float x, float y )
 
 //****if* cSprite/SetUVBorder
 // FUNCTION
-//   Controls how the sprite handles UVs that might extend beyond the bounds of the image during sampling, for 
+//   Controls how the sprite handles UVs that might extend beyond the bounds of the image during sampling, for
 //   example when the edge of the sprite is halfway across a pixel. By default (border=0.5) the sprite compensates
-//   for this by offsetting UV coords by 0.5 pixels inwards, however this means that the outer most pixels of 
+//   for this by offsetting UV coords by 0.5 pixels inwards, however this means that the outer most pixels of
 //   the sprite's image may not show. border=0 removes this offset creating a pixel perfect reproduction of the
 //   image, but this may cause texture seams when trying to line up sprites of the same image that don't fall
-//   exactly on a whole pixel. Setting the border to 0 may also cause animated sprites, or sprites using a texture 
-//   atlas, to 'steal' pixels from neighbouring images. You may also increase this effect by setting the border 
+//   exactly on a whole pixel. Setting the border to 0 may also cause animated sprites, or sprites using a texture
+//   atlas, to 'steal' pixels from neighbouring images. You may also increase this effect by setting the border
 //   greater than 0.5 pixels.
 // INPUTS
 //   border -- The number of pixels to offset the UV coordinates inwards. Must be greater than or equal to 0.
@@ -2860,26 +2860,26 @@ void cSprite::SetUVBorder( float border )
 
 //****if* cSprite/SetUVOffset
 // FUNCTION
-//   Offsets the sprites UV coordinates by the given amount. For example, offsetting by 0.5 in the U direction will 
+//   Offsets the sprites UV coordinates by the given amount. For example, offsetting by 0.5 in the U direction will
 //   make the sprite begin sampling the texture halfway across the top of the texture instead of the top left corner
 //   as normal. UV values outside the range of 0,0 (top left) and 1,1 (bottom right) can either wrap around or clamp
 //   the texture, which is decided by the image assigned to the sprite using SetImageWrapU() and SetImageWrapV().
 //   Clamping or wraping cannot be set on a per-sprite basis.
 //
-//   By default a sprite is set to use the UV coordinates 0,0 to 1,1 using the full image available to it. However 
-//   there are several cases where this is changed by the AGK to hide certain limitations. If the texture assigned 
-//   to the sprite is not a power of 2 width or height the image is increased in size until it is a power of 2 size 
-//   and the UV coordinates for the sprite reduced so that the sprite only uses the portion of the texture 
-//   containing the original image. This is because most mobile platforms do not support textures that are not a 
-//   power of 2 width or height. Therefore offsetting the sprites's UV coords in this case will shift the sprite's 
+//   By default a sprite is set to use the UV coordinates 0,0 to 1,1 using the full image available to it. However
+//   there are several cases where this is changed by the AGK to hide certain limitations. If the texture assigned
+//   to the sprite is not a power of 2 width or height the image is increased in size until it is a power of 2 size
+//   and the UV coordinates for the sprite reduced so that the sprite only uses the portion of the texture
+//   containing the original image. This is because most mobile platforms do not support textures that are not a
+//   power of 2 width or height. Therefore offsetting the sprites's UV coords in this case will shift the sprite's
 //   usage of the texture into the undefined portion which is being used as padding.
 //   Additionally if the sprtie is using an image that belongs to an atlas texture the sprite's UV coordinates will
 //   be set so that it only uses the portion of the texture containing its assigned image. Offsetting the UV
-//   coordinates in this case will shift the sprite's usage of the texture into other images that are part of the 
-//   atlas texture. The same can be said of sprites using an animation contained within a single texture using 
+//   coordinates in this case will shift the sprite's usage of the texture into other images that are part of the
+//   atlas texture. The same can be said of sprites using an animation contained within a single texture using
 //   SetSpriteAnimation().
-//   Due to these possibilities it is recommended that UV coords only be modified on sprites that are using whole 
-//   images (not atlas textures) and which are a power of 2 size in both width and height. With these constraints 
+//   Due to these possibilities it is recommended that UV coords only be modified on sprites that are using whole
+//   images (not atlas textures) and which are a power of 2 size in both width and height. With these constraints
 //   it is possible to use UV values outside 0-1 to clamp or repeat the texture successfully.
 // INPUTS
 //   u -- The amount to offset the UV coordinates in the U direction.
@@ -2894,26 +2894,26 @@ void cSprite::SetUVOffset( float u, float v )
 
 //****if* cSprite/SetUVScale
 // FUNCTION
-//   Scales the sprites UV coordinates by the given amount. A sprite with UV scaled by 2 will make its texture look 
+//   Scales the sprites UV coordinates by the given amount. A sprite with UV scaled by 2 will make its texture look
 //   twice as big as normal. The UV scale does not affect the UV offset chosen using SetSpriteUVOffset(), so that an
 //   offset of 0.5 in the U direction will always begin sampling halfway across the texture, the scale defines how
-//   far the sprite continues sampling. So with an offset of 0.5, a scale of 2 will make the sprite sample from 0.5 
+//   far the sprite continues sampling. So with an offset of 0.5, a scale of 2 will make the sprite sample from 0.5
 //   to 1 instead of 0.5 to 1.5.
 //
-//   By default a sprite is set to use the UV coordinates 0,0 to 1,1 using the full image available to it. However 
-//   there are several cases where this is changed by the AGK to hide certain limitations. If the texture assigned 
-//   to the sprite is not a power of 2 width or height the image is increased in size until it is a power of 2 size 
-//   and the UV coordinates for the sprite reduced so that the sprite only uses the portion of the texture 
-//   containing the original image. This is because most mobile platforms do not support textures that are not a 
-//   power of 2 width or height. Therefore offsetting the sprites's UV coords in this case will shift the sprite's 
+//   By default a sprite is set to use the UV coordinates 0,0 to 1,1 using the full image available to it. However
+//   there are several cases where this is changed by the AGK to hide certain limitations. If the texture assigned
+//   to the sprite is not a power of 2 width or height the image is increased in size until it is a power of 2 size
+//   and the UV coordinates for the sprite reduced so that the sprite only uses the portion of the texture
+//   containing the original image. This is because most mobile platforms do not support textures that are not a
+//   power of 2 width or height. Therefore offsetting the sprites's UV coords in this case will shift the sprite's
 //   usage of the texture into the undefined portion which is being used as padding.
 //   Additionally if the sprtie is using an image that belongs to an atlas texture the sprite's UV coordinates will
 //   be set so that it only uses the portion of the texture containing its assigned image. Offsetting the UV
-//   coordinates in this case will shift the sprite's usage of the texture into other images that are part of the 
-//   atlas texture. The same can be said of sprites using an animation contained within a single texture using 
+//   coordinates in this case will shift the sprite's usage of the texture into other images that are part of the
+//   atlas texture. The same can be said of sprites using an animation contained within a single texture using
 //   SetSpriteAnimation().
-//   Due to these possibilities it is recommended that UV coords only be modified on sprites that are using whole 
-//   images (not atlas textures) and which are a power of 2 size in both width and height. With these constraints 
+//   Due to these possibilities it is recommended that UV coords only be modified on sprites that are using whole
+//   images (not atlas textures) and which are a power of 2 size in both width and height. With these constraints
 //   it is possible to use UV values outside 0-1 to clamp or repeat the texture successfully.
 // INPUTS
 //   scaleU -- The amount to scale in the U direction.
@@ -2948,7 +2948,7 @@ void cSprite::SetScissor( float x, float y, float x2, float y2 )
 	}
 
 	float temp;
-	if ( x2 < x ) 
+	if ( x2 < x )
 	{
 		temp = x2;
 		x2 = x;
@@ -3094,7 +3094,7 @@ void cSprite::Draw()
 	{
         cImage::BindTexture( m_pImage->GetTextureID() );
         pUV = new float[ 8 ];
-        
+
 		if ( m_bUVOverride )
 		{
             pUV[ 0 ] = m_fU1;		pUV[ 1 ] = m_fV1;
@@ -3149,7 +3149,7 @@ void cSprite::Draw()
 				fV1 = fV2;
 				fV2 = temp;
 			}
-			
+
 			pUV[ 0 ] = fU1;		pUV[ 1 ] = fV1;
 			pUV[ 2 ] = fU1;		pUV[ 3 ] = fV2;
 			pUV[ 4 ] = fU2;		pUV[ 5 ] = fV1;
@@ -3235,9 +3235,9 @@ void cSprite::Draw()
 		x4 = agk::WorldToScreenX( x4 );
 		y4 = agk::WorldToScreenY( y4 );
 	}
-	
+
 	// correct for floating point pixel positions
-	//if ( agk::Abs(m_fAngle) < 0.01f || agk::Abs(m_fAngle-PI/2) < 0.01f 
+	//if ( agk::Abs(m_fAngle) < 0.01f || agk::Abs(m_fAngle-PI/2) < 0.01f
 	//	  || agk::Abs(m_fAngle-PI) < 0.01f || agk::Abs(m_fAngle-PI*1.5f) < 0.01f )
 	if ( (m_bFlags & AGK_SPRITE_SNAP) /*&& (m_fAngle == 0 || m_fAngle == PI/2 || m_fAngle == PI || m_fAngle == PI*1.5f)*/ )
 	{
@@ -3249,36 +3249,36 @@ void cSprite::Draw()
 		int y1i = agk::Round( y1/VhDh );
 		x1 = (x1i) * VwDw;
 		y1 = (y1i) * VhDh;
-		
+
 		int x2i = agk::Round( x2/VwDw );
 		int y2i = agk::Round( y2/VhDh );
 		x2 = (x2i) * VwDw;
 		y2 = (y2i) * VhDh;
-		
+
 		int x3i = agk::Round( x3/VwDw );
 		int y3i = agk::Round( y3/VhDh );
 		x3 = (x3i) * VwDw;
 		y3 = (y3i) * VhDh;
-		
+
 		int x4i = agk::Round( x4/VwDw );
 		int y4i = agk::Round( y4/VhDh );
 		x4 = (x4i) * VwDw;
 		y4 = (y4i) * VhDh;
 	}
-		
+
 	// triangle 1
 	pVertices[ 0 ] = x1;
 	pVertices[ 1 ] = y1;
 	pVertices[ 2 ] = m_fZ;
-	
+
 	pVertices[ 3 ] = x2;
 	pVertices[ 4 ] = y2;
 	pVertices[ 5 ] = m_fZ;
-	
+
 	pVertices[ 6 ] = x3;
 	pVertices[ 7 ] = y3;
 	pVertices[ 8 ] = m_fZ;
-	
+
 	pVertices[ 9 ] = x4;
 	pVertices[ 10 ] = y4;
 	pVertices[ 11 ] = m_fZ;
@@ -3321,13 +3321,13 @@ void cSprite::Draw()
 void cSprite::PlatformDraw( float *vertices, float *uv, unsigned char *color )
 {
 	AGKShader *pShader = m_pShader;
-	
+
 	agk::PlatformBindBuffer( 0 );
 	agk::PlatformBindIndexBuffer( 0 );
 
 	if ( !pShader ) return;
 	pShader->MakeActive();
-	
+
 	int locPos = pShader->GetAttribPosition();
 	int locColor = pShader->GetAttribColor();
 	int locTex = pShader->GetAttribTexCoord();
@@ -3368,7 +3368,7 @@ void cSprite::PlatformDraw( float *vertices, float *uv, unsigned char *color )
 	}
 
 	// Draw
-	pShader->DrawPrimitives( AGK_TRIANGLE_STRIP, 0, 4 ); 
+	pShader->DrawPrimitives( AGK_TRIANGLE_STRIP, 0, 4 );
 }
 
 //****if* cSprite/BatchDraw
@@ -3491,7 +3491,7 @@ void cSprite::BatchDraw( float *pVertices, float *pUV, unsigned char *pColor )
 	{
 		float x1,x2,x3,x4;
 		float y1,y2,y3,y4;
-		
+
 		if ( m_fAngle != 0 )
 		{
 			float stretch = agk::m_fStretchValue;
@@ -3524,13 +3524,13 @@ void cSprite::BatchDraw( float *pVertices, float *pUV, unsigned char *pColor )
 		{
 			x1 = m_fX - m_fOffsetX;
 			y1 = m_fY - m_fOffsetY;
-			
+
 			x2 = m_fX - m_fOffsetX;
 			y2 = m_fY - m_fOffsetY + m_fHeight;
-			
+
 			x3 = m_fX - m_fOffsetX + m_fWidth;
 			y3 = m_fY - m_fOffsetY;
-			
+
 			x4 = m_fX - m_fOffsetX + m_fWidth;
 			y4 = m_fY - m_fOffsetY + m_fHeight;
 		}
@@ -3549,10 +3549,10 @@ void cSprite::BatchDraw( float *pVertices, float *pUV, unsigned char *pColor )
 			x4 = agk::WorldToScreenX( x4 );
 			y4 = agk::WorldToScreenY( y4 );
 		}
-		
-		//if ( agk::Abs(m_fAngle) < 0.01f || agk::Abs(m_fAngle-PI/2) < 0.01f 
+
+		//if ( agk::Abs(m_fAngle) < 0.01f || agk::Abs(m_fAngle-PI/2) < 0.01f
 		//  || agk::Abs(m_fAngle-PI) < 0.01f || agk::Abs(m_fAngle-PI*1.5f) < 0.01f )
-		if ( (m_bFlags & AGK_SPRITE_SNAP) 
+		if ( (m_bFlags & AGK_SPRITE_SNAP)
 		{
 			// correct for floating point pixel positions
 			// m_fTargetViewportHeight has sub pixel accuracy, round to a whole pixel first
@@ -3564,28 +3564,28 @@ void cSprite::BatchDraw( float *pVertices, float *pUV, unsigned char *pColor )
 				VwDw = agk::m_iFBOWidth / (agk::m_iDisplayExtraX*2 + agk::m_iDisplayWidth);
 				VhDh = agk::m_iFBOHeight / (agk::m_iDisplayExtraY*2 + agk::m_iDisplayHeight);
 			}
-			
+
 			if( agk::m_iOrientation > 2 && agk::GetAGKShouldRotate() )
 			{
 				VwDw = agk::Round(agk::m_fTargetViewportHeight) / (float) agk::m_iDisplayWidth;
 				VhDh = agk::Round(agk::m_fTargetViewportWidth) / (float) agk::m_iDisplayHeight;
 			}
-			
+
 			int x1i = agk::Round( x1*VwDw );
 			int y1i = agk::Round( y1*VhDh );
 			x1 = x1i / VwDw;
 			y1 = y1i / VhDh;
-			
+
 			int x2i = agk::Round( x2*VwDw );
 			int y2i = agk::Round( y2*VhDh );
 			x2 = x2i / VwDw;
 			y2 = y2i / VhDh;
-			
+
 			int x3i = agk::Round( x3*VwDw );
 			int y3i = agk::Round( y3*VhDh );
 			x3 = x3i / VwDw;
 			y3 = y3i / VhDh;
-			
+
 			int x4i = agk::Round( x4*VwDw );
 			int y4i = agk::Round( y4*VhDh );
 			x4 = x4i / VwDw;
@@ -3656,10 +3656,10 @@ void cSprite::BatchDrawQuad( float *pVertices, float *pUV, unsigned char *pColor
 	int pixelsW = agk::Round( m_fWidth * (agk::GetDeviceWidth() / (float) agk::GetVirtualWidth()) );
 	int pixelsH = agk::Round( m_fHeight * (agk::GetDeviceHeight() / (float) agk::GetVirtualHeight()) );
 	g_iPixelsDrawn += (pixelsW * pixelsH);
-	
+
 	// check assigned images still exist, this is now handled by cSprite::RemoveImage()
 	//CheckImages();
-	
+
 	// texture coords
 	if ( pUV != UNDEF )
 	{
@@ -3678,7 +3678,7 @@ void cSprite::BatchDrawQuad( float *pVertices, float *pUV, unsigned char *pColor
 				float fV1 = m_pImage->GetV1();
 				float fU2 = m_pImage->GetU2();
 				float fV2 = m_pImage->GetV2();
-				
+
 				// modify UVs if animated
 				if ( m_iFrameCount > 0 )
 				{
@@ -3687,7 +3687,7 @@ void cSprite::BatchDrawQuad( float *pVertices, float *pUV, unsigned char *pColor
 					fU2 = m_pFrames[ m_iCurrentFrame ].m_fU2;
 					fV2 = m_pFrames[ m_iCurrentFrame ].m_fV2;
 				}
-				
+
 				if ( m_fUScale != 1 )
 				{
 					float diff = fU2 - fU1;
@@ -3696,7 +3696,7 @@ void cSprite::BatchDrawQuad( float *pVertices, float *pUV, unsigned char *pColor
 				}
 				fU1 += m_fUOffset;
 				fU2 += m_fUOffset;
-				
+
 				if ( m_fVScale != 1 )
 				{
 					float diff = fV2 - fV1;
@@ -3705,7 +3705,7 @@ void cSprite::BatchDrawQuad( float *pVertices, float *pUV, unsigned char *pColor
 				}
 				fV1 += m_fVOffset;
 				fV2 += m_fVOffset;
-				
+
 				if ( m_fUVBorder > 0 )
 				{
 					fU1 += m_fUVBorder / m_pImage->GetTotalWidth();
@@ -3713,21 +3713,21 @@ void cSprite::BatchDrawQuad( float *pVertices, float *pUV, unsigned char *pColor
 					fU2 -= m_fUVBorder / m_pImage->GetTotalWidth();
 					fV2 -= m_fUVBorder / m_pImage->GetTotalHeight();
 				}
-				
+
 				if ( (m_bFlags & AGK_SPRITE_FLIPH) > 0 )
 				{
 					float temp = fU1;
 					fU1 = fU2;
 					fU2 = temp;
 				}
-				
+
 				if ( (m_bFlags & AGK_SPRITE_FLIPV) > 0 )
 				{
 					float temp = fV1;
 					fV1 = fV2;
 					fV2 = temp;
 				}
-				
+
 				pUV[ 0 ] = fU1;		pUV[ 1 ] = fV1;
 				pUV[ 2 ] = fU1;		pUV[ 3 ] = fV2;
 				pUV[ 4 ] = fU2;		pUV[ 5 ] = fV1;
@@ -3742,13 +3742,13 @@ void cSprite::BatchDrawQuad( float *pVertices, float *pUV, unsigned char *pColor
 			pUV[ 6 ] = 0.0f;		pUV[ 7 ] = 0.0f;
 		}
 	}
-	
+
 	// vertex setup
 	if ( pVertices != UNDEF )
 	{
 		float x1,x2,x3,x4;
 		float y1,y2,y3,y4;
-		
+
 		if ( m_fAngle != 0 )
 		{
 			float boneScaleX = 1;
@@ -3768,7 +3768,7 @@ void cSprite::BatchDrawQuad( float *pVertices, float *pUV, unsigned char *pColor
 			float fCosA = agk::CosRad(m_fAngle);
 			float fSinA1 = fSinA/stretch;
 			float fSinA2 = fSinA*stretch;
-			
+
 			float fTempX = (-m_fOffsetX)*boneScaleX;
 			float fTempY = (-m_fOffsetY)*boneScaleY;
 			x1 = m_fX + (fTempX*fCosA - fTempY*fSinA1)*boneScaleXInv;
@@ -3793,13 +3793,13 @@ void cSprite::BatchDrawQuad( float *pVertices, float *pUV, unsigned char *pColor
 		{
 			x1 = m_fX - m_fOffsetX;
 			y1 = m_fY - m_fOffsetY;
-			
+
 			x2 = m_fX - m_fOffsetX;
 			y2 = m_fY - m_fOffsetY + m_fHeight;
-			
+
 			x3 = m_fX - m_fOffsetX + m_fWidth;
 			y3 = m_fY - m_fOffsetY;
-			
+
 			x4 = m_fX - m_fOffsetX + m_fWidth;
 			y4 = m_fY - m_fOffsetY + m_fHeight;
 		}
@@ -3824,23 +3824,23 @@ void cSprite::BatchDrawQuad( float *pVertices, float *pUV, unsigned char *pColor
 			x3 = x3t; y3 = y3t;
 			x4 = x4t; y4 = y4t;
 		}
-		
+
 		if ( (m_bFlags & AGK_SPRITE_SCROLL) > 0 )
 		{
 			x1 = agk::WorldToScreenX( x1 );
 			y1 = agk::WorldToScreenY( y1 );
-			
+
 			x2 = agk::WorldToScreenX( x2 );
 			y2 = agk::WorldToScreenY( y2 );
-			
+
 			x3 = agk::WorldToScreenX( x3 );
 			y3 = agk::WorldToScreenY( y3 );
-			
+
 			x4 = agk::WorldToScreenX( x4 );
 			y4 = agk::WorldToScreenY( y4 );
 		}
-		
-		//if ( agk::Abs(m_fAngle) < 0.01f || agk::Abs(m_fAngle-PI/2) < 0.01f 
+
+		//if ( agk::Abs(m_fAngle) < 0.01f || agk::Abs(m_fAngle-PI/2) < 0.01f
 		//  || agk::Abs(m_fAngle-PI) < 0.01f || agk::Abs(m_fAngle-PI*1.5f) < 0.01f )
 		if ( (m_bFlags & AGK_SPRITE_SNAP) /*&& (m_fAngle == 0 || m_fAngle == PI/2 || m_fAngle == PI || m_fAngle == PI*1.5f)*/ )
 		{
@@ -3848,55 +3848,55 @@ void cSprite::BatchDrawQuad( float *pVertices, float *pUV, unsigned char *pColor
 			// m_fTargetViewportHeight has sub pixel accuracy, round to a whole pixel first
 			float VwDw = agk::DeviceToDisplayRatioX();
 			float VhDh = agk::DeviceToDisplayRatioY();
-			
+
 			int x1i = agk::Round( x1/VwDw );
 			int y1i = agk::Round( y1/VhDh );
 			x1 = (x1i) * VwDw;
 			y1 = (y1i) * VhDh;
-			
+
 			int x2i = agk::Round( x2/VwDw );
 			int y2i = agk::Round( y2/VhDh );
 			x2 = (x2i) * VwDw;
 			y2 = (y2i) * VhDh;
-			
+
 			int x3i = agk::Round( x3/VwDw );
 			int y3i = agk::Round( y3/VhDh );
 			x3 = (x3i) * VwDw;
 			y3 = (y3i) * VhDh;
-			
+
 			int x4i = agk::Round( x4/VwDw );
 			int y4i = agk::Round( y4/VhDh );
 			x4 = (x4i) * VwDw;
 			y4 = (y4i) * VhDh;
 		}
-		
+
 		pVertices[ 0 ] = x1;
 		pVertices[ 1 ] = y1;
 		pVertices[ 2 ] = m_fZ;
-		
+
 		pVertices[ 3 ] = x2;
 		pVertices[ 4 ] = y2;
 		pVertices[ 5 ] = m_fZ;
-		
+
 		pVertices[ 6 ] = x3;
 		pVertices[ 7 ] = y3;
 		pVertices[ 8 ] = m_fZ;
-		
+
 		pVertices[ 9 ] = x4;
 		pVertices[ 10 ] = y4;
 		pVertices[ 11 ] = m_fZ;
 	}
-	
+
 	UINT alpha = m_iColor;
 	UINT blue = alpha >> 8;
 	UINT green = blue >> 8;
 	UINT red = green >> 8;
-	
-	alpha &= 0xff; 
+
+	alpha &= 0xff;
 	blue &= 0xff;
 	green &= 0xff;
 	red &= 0xff;
-	
+
 	// color setup
 	if ( pColor != UNDEF )
 	{
@@ -3919,7 +3919,7 @@ void cSprite::Update( float time )
 	}
 }
 
-// Advance the sprite animation by the necessary frames to keep up with frame time 
+// Advance the sprite animation by the necessary frames to keep up with frame time
 void cSprite::UpdateAnimation( float time )
 {
 	if ( m_iFrameCount > 0 && (m_bFlags & AGK_SPRITE_PLAYING) != 0 )
@@ -3930,7 +3930,7 @@ void cSprite::UpdateAnimation( float time )
 			// advance one frame
 			m_fFrameTimer -= m_fFrameChangeTime;
 
-			if ( m_iFrameEnd >= m_iFrameStart ) 
+			if ( m_iFrameEnd >= m_iFrameStart )
 			{
 				m_iCurrentFrame++;
 
@@ -3938,7 +3938,7 @@ void cSprite::UpdateAnimation( float time )
 				{
 					// reached the end
 					if ( (m_bFlags & AGK_SPRITE_LOOP) != 0 ) m_iCurrentFrame = m_iFrameStart;
-					else 
+					else
 					{
 						m_iCurrentFrame = m_iFrameEnd;
 						m_bFlags &= ~AGK_SPRITE_PLAYING;
@@ -3946,7 +3946,7 @@ void cSprite::UpdateAnimation( float time )
 					}
 				}
 			}
-			else 
+			else
 			{
 				m_iCurrentFrame--;
 
@@ -3954,16 +3954,16 @@ void cSprite::UpdateAnimation( float time )
 				{
 					// reached the end
 					if ( (m_bFlags & AGK_SPRITE_LOOP) != 0 ) m_iCurrentFrame = m_iFrameStart;
-					else 
+					else
 					{
 						m_iCurrentFrame = m_iFrameEnd;
 						m_bFlags &= ~AGK_SPRITE_PLAYING;
 						break;
 					}
 				}
-			}			
+			}
 
-			if ( m_pFrames[ m_iCurrentFrame ].m_pFrameImage != m_pImage ) 
+			if ( m_pFrames[ m_iCurrentFrame ].m_pFrameImage != m_pImage )
 			{
 				SwitchImage( m_pFrames[ m_iCurrentFrame ].m_pFrameImage, false );
 
@@ -4001,8 +4001,8 @@ void cSprite::ReplacePhysicsShape( b2Shape *pOldShape, b2Shape *pNewShape )
 		if ( scaleY > scale ) scale = scaleY;
 		m_fOrigRadius = m_phyShape->m_radius / scale;
 	}
-	
-	if ( !m_phyBody ) 
+
+	if ( !m_phyBody )
 	{
 		if ( pOldShape ) delete pOldShape;
 		return;
@@ -4071,14 +4071,14 @@ void cSprite::ReplacePhysicsShape( b2Shape *pOldShape, b2Shape *pNewShape )
 void cSprite::CalculatePhysicsCOM()
 {
 	if ( !m_phyBody ) return;
-		
+
 	m_phyBody->ResetMassData();
 }
 
 void cSprite::SetPhysicsCOM( float x, float y )
 {
 	if ( !m_phyBody ) return;
-		
+
 	b2MassData mass;
 	mass.center.Set( agk::WorldToPhyX(x),agk::WorldToPhyY(y) );
 	mass.mass = m_phyBody->GetMass();
@@ -4100,7 +4100,7 @@ float cSprite::GetPhysicsCOMY()
 
 bool cSprite::InBox( float x1, float y1, float x2, float y2 )
 {
-	if ( !m_phyShape ) 
+	if ( !m_phyShape )
 	{
 		SetShape( eBox );
 	}
@@ -4147,7 +4147,7 @@ bool cSprite::InBox( float x1, float y1, float x2, float y2 )
 	// must be box-circle
 	b2PolygonShape *polygonA = &poly;
 	b2CircleShape *circleB = (b2CircleShape*)m_phyShape;
-		
+
 	// Compute circle position in the frame of the polygon.
 	b2Vec2 c = b2Mul(transform1, circleB->m_p);
 	b2Vec2 cLocal = b2MulT(transform2, c);
@@ -4207,7 +4207,7 @@ bool cSprite::InBox( float x1, float y1, float x2, float y2 )
 
 bool cSprite::InCircle( float x1, float y1, float radius )
 {
-	if ( !m_phyShape ) 
+	if ( !m_phyShape )
 	{
 		SetShape( eBox );
 	}
@@ -4246,7 +4246,7 @@ bool cSprite::InCircle( float x1, float y1, float radius )
 	// must be polygon-circle
 	b2PolygonShape *polygonA = (b2PolygonShape*)m_phyShape;
 	b2CircleShape *circleB = &circle;;
-		
+
 	// Compute circle position in the frame of the polygon.
 	b2Vec2 c = b2Mul(transform2, circleB->m_p);
 	b2Vec2 cLocal = b2MulT(transform1, c);
@@ -4303,13 +4303,13 @@ bool cSprite::InCircle( float x1, float y1, float radius )
 
 bool cSprite::GetCollision( cSprite *pSprite2 )
 {
-	if ( !m_phyShape ) 
+	if ( !m_phyShape )
 	{
 		// create a default box
 		SetShape( eBox );
 	}
 
-	if ( !pSprite2->m_phyShape ) 
+	if ( !pSprite2->m_phyShape )
 	{
 		// create a default box
 		pSprite2->SetShape( eBox );
@@ -4360,7 +4360,7 @@ bool cSprite::GetCollision( cSprite *pSprite2 )
         default: agk::Error( "Unsupported Box2D shape" );
 	}
 
-	if ( !shape1 || !shape2 ) 
+	if ( !shape1 || !shape2 )
 	{
 		if ( shape1 ) delete shape1;
 		if ( shape2 ) delete shape2;
@@ -4384,7 +4384,7 @@ bool cSprite::GetCollision( cSprite *pSprite2 )
 				vertices[ i ].y /= agk::GetViewZoom();
 			}
 		}
-			
+
 		if ( shape1->GetType() == b2Shape::e_circle )
 		{
 			shape1->m_radius /= agk::GetViewZoom();
@@ -4408,7 +4408,7 @@ bool cSprite::GetCollision( cSprite *pSprite2 )
 				vertices[ i ].y /= agk::GetViewZoom();
 			}
 		}
-			
+
 		if ( shape2->GetType() == b2Shape::e_circle )
 		{
 			shape2->m_radius /= agk::GetViewZoom();
@@ -4419,7 +4419,7 @@ bool cSprite::GetCollision( cSprite *pSprite2 )
 	float diffX = agk::WorldToPhyX(fX1 - fX2);
 	float diffY = agk::WorldToPhyY(fY1 - fY2);
 	float radiusSqr = fColRadius1*fColRadius1 + fColRadius2*fColRadius2 + 2*fColRadius1*fColRadius2;
-	if ( diffX*diffX + diffY*diffY > radiusSqr ) 
+	if ( diffX*diffX + diffY*diffY > radiusSqr )
 	{
 		delete shape1;
 		delete shape2;
@@ -4491,7 +4491,7 @@ bool cSprite::GetCollision( cSprite *pSprite2 )
 		float32 s = b2Dot(normals[i], cLocal - vertices[i]);
 
 		// Early out.
-		if (s > radius) 
+		if (s > radius)
 		{
 			delete shape1;
 			delete shape2;
@@ -4546,13 +4546,13 @@ bool cSprite::GetCollision( cSprite *pSprite2 )
 
 float cSprite::GetDistance( cSprite *pSprite2 )
 {
-	if ( !m_phyShape ) 
+	if ( !m_phyShape )
 	{
 		// create a box for them
 		SetShape( eBox );
 	}
 
-	if ( !pSprite2->m_phyShape ) 
+	if ( !pSprite2->m_phyShape )
 	{
 		pSprite2->SetShape( eBox );
 	}
@@ -4600,11 +4600,11 @@ bool cSprite::GetPhysicsCollision( cSprite *pSprite2 )
 
 	if ( !m_phyBody ) return false;
 	if ( !pSprite2->m_phyBody ) return false;
-		
+
 	b2ContactEdge *pContact = m_phyBody->GetContactList();
 	while ( pContact )
 	{
-		if ( pContact->contact->IsTouching() && pContact->other == pSprite2->m_phyBody ) 
+		if ( pContact->contact->IsTouching() && pContact->other == pSprite2->m_phyBody )
 		{
 			m_lastContact = pContact->contact;
 			return true;
@@ -4629,7 +4629,7 @@ float cSprite::GetPhysicsCollisionY( )
 
 float cSprite::GetPhysicsCollisionWorldX( )
 {
-	if ( m_lastContact ) 
+	if ( m_lastContact )
 	{
 		b2WorldManifold manifold;
 		m_lastContact->GetWorldManifold( &manifold );
@@ -4640,7 +4640,7 @@ float cSprite::GetPhysicsCollisionWorldX( )
 
 float cSprite::GetPhysicsCollisionWorldY( )
 {
-	if ( m_lastContact ) 
+	if ( m_lastContact )
 	{
 		b2WorldManifold manifold;
 		m_lastContact->GetWorldManifold( &manifold );
@@ -4661,7 +4661,7 @@ void cSprite::SetShape( ePhysicsShape shape, int shapeID )
 	}
 
 	// legacy functionality, shapeID of -1 replaces all shapes with just this one
-	if ( shapeID < 0 ) 
+	if ( shapeID < 0 )
 	{
 		ClearAdditionalShapes();
 		shapeID = 0; // set the main shape
@@ -4673,7 +4673,7 @@ void cSprite::SetShape( ePhysicsShape shape, int shapeID )
 	b2Shape *pOldShape = *ppShapePtr;
 	*ppShapePtr = UNDEF;
 
-	if ( shape == eNone ) 
+	if ( shape == eNone )
 	{
 		ReplacePhysicsShape( pOldShape, 0 );
 		return;
@@ -4727,7 +4727,7 @@ void cSprite::SetShape( ePhysicsShape shape, int shapeID )
 						y = y * m_fHeight / m_pImage->GetHeight();
 					}
 
-						
+
 					x = x - m_fOffsetX;
 					y = y - m_fOffsetY;
 
@@ -4747,7 +4747,7 @@ void cSprite::SetShape( ePhysicsShape shape, int shapeID )
 					pPoint = pPoint->pNext;
 				}
 
-				polyShape->Set( vertices, count ); 
+				polyShape->Set( vertices, count );
 
 				delete [] vertices;
 			}
@@ -4824,7 +4824,7 @@ void cSprite::SetShape( ePhysicsShape shape, int shapeID )
 			break;
 		}
 
-		default: 
+		default:
 		{
 #ifdef _AGK_ERROR_CHECK
 			agk::Error( "Unrecognised physics shape for sprite in SetSpriteShape()" );
@@ -4849,7 +4849,7 @@ void cSprite::SetShapeBox( float x, float y, float x2, float y2, float angle, in
 	}
 
 	// legacy functionality, shapeID of -1 replaces all shapes with just this one
-	if ( shapeID < 0 ) 
+	if ( shapeID < 0 )
 	{
 		ClearAdditionalShapes();
 		shapeID = 0; // set the main shape
@@ -4865,7 +4865,7 @@ void cSprite::SetShapeBox( float x, float y, float x2, float y2, float angle, in
 	{
 		// swap
 		float temp = x;
-		x = x2; 
+		x = x2;
 		x2 = temp;
 	}
 
@@ -4873,7 +4873,7 @@ void cSprite::SetShapeBox( float x, float y, float x2, float y2, float angle, in
 	{
 		// swap
 		float temp = y;
-		y = y2; 
+		y = y2;
 		y2 = temp;
 	}
 
@@ -4885,7 +4885,7 @@ void cSprite::SetShapeBox( float x, float y, float x2, float y2, float angle, in
 	b2PolygonShape* polyShape = new b2PolygonShape();
 	polyShape->SetAsBox( agk::WorldToPhyX(width/2.0f), agk::WorldToPhyY(height/2.0f), b2Vec2(agk::WorldToPhyX(posX),agk::WorldToPhyY(posY)), angle );
 	*ppShapePtr = (b2Shape*) polyShape;
-		
+
 	m_eShape = eManual;
 	ReplacePhysicsShape( pOldShape, *ppShapePtr );
 	RecalcColRadius();
@@ -4901,7 +4901,7 @@ void cSprite::SetShapeCircle( float x, float y, float radius, int shapeID )
 	}
 
 	// legacy functionality, shapeID of -1 replaces all shapes with just this one
-	if ( shapeID < 0 ) 
+	if ( shapeID < 0 )
 	{
 		ClearAdditionalShapes();
 		shapeID = 0; // set the main shape
@@ -4917,7 +4917,7 @@ void cSprite::SetShapeCircle( float x, float y, float radius, int shapeID )
 	circleShape->m_p.Set( agk::WorldToPhyX(x), agk::WorldToPhyY(y) );
 	circleShape->m_radius = agk::WorldToPhyX(radius);
 	*ppShapePtr = (b2Shape*) circleShape;
-		
+
 	m_eShape = eManual;
 	ReplacePhysicsShape( pOldShape, *ppShapePtr );
 	RecalcColRadius();
@@ -4927,7 +4927,7 @@ void cSprite::SetShapePolygon( UINT numPoints, float *pPoints, int shapeID )
 {
 	if ( !pPoints ) return;
 	if ( numPoints < 2 ) return;
-	if ( numPoints > b2_maxPolygonVertices ) 
+	if ( numPoints > b2_maxPolygonVertices )
 	{
 #ifdef _AGK_ERROR_CHECK
 		agk::Error( "Too many points for a physics polygon" );
@@ -4943,7 +4943,7 @@ void cSprite::SetShapePolygon( UINT numPoints, float *pPoints, int shapeID )
 	}
 
 	// legacy functionality, shapeID of -1 replaces all shapes with just this one
-	if ( shapeID < 0 ) 
+	if ( shapeID < 0 )
 	{
 		ClearAdditionalShapes();
 		shapeID = 0; // set the main shape
@@ -4965,7 +4965,7 @@ void cSprite::SetShapePolygon( UINT numPoints, float *pPoints, int shapeID )
 	b2PolygonShape* polyShape = new b2PolygonShape();
 	polyShape->Set( vertices, (int)numPoints );
 	*ppShapePtr = (b2Shape*) polyShape;
-			
+
 	m_eShape = eManual;
 	ReplacePhysicsShape( pOldShape, *ppShapePtr );
 	RecalcColRadius();
@@ -5002,7 +5002,7 @@ void cSprite::SetShapePolygon( UINT numPoints, UINT index, float x, float y, int
 	m_fPolygonPointsTemp[ index*2 ] = x;
 	m_fPolygonPointsTemp[ index*2 + 1 ] = y;
 
-	if ( numPoints == index+1 ) 
+	if ( numPoints == index+1 )
 	{
 		SetShapePolygon( numPoints, m_fPolygonPointsTemp, shapeID );
 		delete [] m_fPolygonPointsTemp;
@@ -5015,7 +5015,7 @@ void cSprite::SetShapeChain( UINT numPoints, float *pPoints, int loop, int shape
 {
 	if ( !pPoints ) return;
 	if ( numPoints < 2 ) return;
-	
+
 	if ( shapeID > (int)m_iNumAdditionalShapes )
 	{
 		uString err; err.Format( "Cannot set the shape, shapeID %d does not exist", shapeID+1 );
@@ -5024,7 +5024,7 @@ void cSprite::SetShapeChain( UINT numPoints, float *pPoints, int loop, int shape
 	}
 
 	// legacy functionality, shapeID of -1 replaces all shapes with just this one
-	if ( shapeID < 0 ) 
+	if ( shapeID < 0 )
 	{
 		ClearAdditionalShapes();
 		shapeID = 0; // set the main shape
@@ -5047,7 +5047,7 @@ void cSprite::SetShapeChain( UINT numPoints, float *pPoints, int loop, int shape
 	if ( loop == 1 ) chainShape->CreateLoop( vertices, (int)numPoints );
 	else chainShape->CreateChain( vertices, (int)numPoints );
 	*ppShapePtr = (b2Shape*) chainShape;
-			
+
 	m_eShape = eManual;
 	ReplacePhysicsShape( pOldShape, *ppShapePtr );
 	RecalcColRadius();
@@ -5074,7 +5074,7 @@ void cSprite::SetShapeChain( UINT numPoints, UINT index, int loop, float x, floa
 	m_fPolygonPointsTemp[ index*2 ] = x;
 	m_fPolygonPointsTemp[ index*2 + 1 ] = y;
 
-	if ( numPoints == index+1 ) 
+	if ( numPoints == index+1 )
 	{
 		SetShapeChain( numPoints, m_fPolygonPointsTemp, loop, shapeID );
 		delete [] m_fPolygonPointsTemp;
@@ -5107,7 +5107,7 @@ void cSprite::AddShapeBox( float x, float y, float x2, float y2, float angle )
 	{
 		// swap
 		float temp = x;
-		x = x2; 
+		x = x2;
 		x2 = temp;
 	}
 
@@ -5115,7 +5115,7 @@ void cSprite::AddShapeBox( float x, float y, float x2, float y2, float angle )
 	{
 		// swap
 		float temp = y;
-		y = y2; 
+		y = y2;
 		y2 = temp;
 	}
 
@@ -5137,7 +5137,7 @@ void cSprite::AddShapeCircle( float x, float y, float radius )
 	b2CircleShape *circleShape = new b2CircleShape();
 	circleShape->m_p.Set( agk::WorldToPhyX(x), agk::WorldToPhyY(y) );
 	circleShape->m_radius = agk::WorldToPhyX(radius);
-		
+
 	AddShapeInternal( circleShape );
 	ReplacePhysicsShape( 0, circleShape );
 	RecalcColRadius();
@@ -5147,7 +5147,7 @@ void cSprite::AddShapePolygon( UINT numPoints, float *pPoints )
 {
 	if ( !pPoints ) return;
 	if ( numPoints < 2 ) return;
-	if ( numPoints > b2_maxPolygonVertices ) 
+	if ( numPoints > b2_maxPolygonVertices )
 	{
 #ifdef _AGK_ERROR_CHECK
 		agk::Error( "Too many points for a physics polygon" );
@@ -5201,7 +5201,7 @@ void cSprite::AddShapePolygon( UINT numPoints, UINT index, float x, float y )
 	m_fPolygonPointsTemp[ index*2 ] = x;
 	m_fPolygonPointsTemp[ index*2 + 1 ] = y;
 
-	if ( numPoints == index+1 ) 
+	if ( numPoints == index+1 )
 	{
 		AddShapePolygon( numPoints, m_fPolygonPointsTemp );
 		delete [] m_fPolygonPointsTemp;
@@ -5214,7 +5214,7 @@ void cSprite::AddShapeChain( UINT numPoints, float *pPoints, int loop )
 {
 	if ( !pPoints ) return;
 	if ( numPoints < 2 ) return;
-	
+
 	b2Vec2 *vertices = new b2Vec2[ numPoints ];
 	for ( UINT i = 0; i < numPoints; i++ )
 	{
@@ -5252,7 +5252,7 @@ void cSprite::AddShapeChain( UINT numPoints, UINT index, int loop, float x, floa
 	m_fPolygonPointsTemp[ index*2 ] = x;
 	m_fPolygonPointsTemp[ index*2 + 1 ] = y;
 
-	if ( numPoints == index+1 ) 
+	if ( numPoints == index+1 )
 	{
 		AddShapeChain( numPoints, m_fPolygonPointsTemp, loop );
 		delete [] m_fPolygonPointsTemp;
@@ -5273,7 +5273,7 @@ void cSprite::ClearAdditionalShapes()
 			pNext = pFix->GetNext();
 
 			if ( pFix->GetShape() != m_phyShape ) m_phyBody->DestroyFixture( pFix );
-				
+
 			pFix = pNext;
 		}
 	}
@@ -5307,7 +5307,7 @@ int cSprite::GetShapeNumVertices( int shapeID )
 		const b2PolygonShape *pPoly = (b2PolygonShape*)pShape;
 		return pPoly->GetVertexCount();
 	}
-	else if ( pShape->GetType() == b2Shape::e_chain ) 
+	else if ( pShape->GetType() == b2Shape::e_chain )
 	{
 		const b2ChainShape *pChain = (b2ChainShape*)pShape;
 		return pChain->GetVertexCount();
@@ -5339,7 +5339,7 @@ float cSprite::GetShapeVertexX( int shapeID, int vertex )
 		}
 		return agk::PhyToWorldX( pPoly->GetVertex( vertex ).x );
 	}
-	else if ( pShape->GetType() == b2Shape::e_chain ) 
+	else if ( pShape->GetType() == b2Shape::e_chain )
 	{
 		const b2ChainShape *pChain = (b2ChainShape*)pShape;
 		if ( vertex < 0 || vertex >= pChain->GetVertexCount() )
@@ -5350,7 +5350,7 @@ float cSprite::GetShapeVertexX( int shapeID, int vertex )
 		}
 		return agk::PhyToWorldX( pChain->GetVertex( vertex ).x );
 	}
-	else return 0;	
+	else return 0;
 }
 
 float cSprite::GetShapeVertexY( int shapeID, int vertex )
@@ -5377,7 +5377,7 @@ float cSprite::GetShapeVertexY( int shapeID, int vertex )
 		}
 		return agk::PhyToWorldY( pPoly->GetVertex( vertex ).y );
 	}
-	else if ( pShape->GetType() == b2Shape::e_chain ) 
+	else if ( pShape->GetType() == b2Shape::e_chain )
 	{
 		const b2ChainShape *pChain = (b2ChainShape*)pShape;
 		if ( vertex < 0 || vertex >= pChain->GetVertexCount() )
@@ -5388,19 +5388,19 @@ float cSprite::GetShapeVertexY( int shapeID, int vertex )
 		}
 		return agk::PhyToWorldY( pChain->GetVertex( vertex ).y );
 	}
-	else return 0;	
+	else return 0;
 }
 
 // physics setters
 void cSprite::SetPhysicsOn( ePhysicsMode mode )
 {
-	if ( m_phyBody ) 
+	if ( m_phyBody )
 	{
 		m_phyBody->SetActive( true );
 		return;
 	}
-		
-	if ( m_phyShape == UNDEF ) 
+
+	if ( m_phyShape == UNDEF )
 	{
 		if ( m_eShape == eNone || m_eShape == eManual ) SetShape( eBox );
 		else SetShape( m_eShape );
@@ -5424,7 +5424,7 @@ void cSprite::SetPhysicsOn( ePhysicsMode mode )
 	//bodyDef.linearVelocity.x = 10.0f;
 	//bodyDef.angularVelocity = 4.0f;
 	m_phyBody = agk::m_phyWorld->CreateBody( &bodyDef );
-		
+
 	if ( m_phyShape )
 	{
 		b2FixtureDef fixtureDef;
@@ -5464,7 +5464,7 @@ void cSprite::PrepareToClearPhysicsContacts()
 		cSprite* pOther = (cSprite*) ce->other->GetUserData();
 		if ( pOther )
 		{
-			while ( pOther->m_pContactIter && pOther->m_pContactIter->other == m_phyBody ) 
+			while ( pOther->m_pContactIter && pOther->m_pContactIter->other == m_phyBody )
 			{
 				// sprite is iterating and this contact is going to get deleted so move it along
 				pOther->m_pContactIter = pOther->m_pContactIter->next;
@@ -5487,7 +5487,7 @@ void cSprite::SetPhysicsOff( )
 void cSprite::SetPhysicsDelete( )
 {
 	if ( !m_phyBody ) return;
-		
+
 	PrepareToClearPhysicsContacts();
 	agk::m_phyWorld->DestroyBody( m_phyBody );
 	m_phyBody = UNDEF;
@@ -5496,7 +5496,7 @@ void cSprite::SetPhysicsDelete( )
 void cSprite::SetPhysicsFriction( float friction, int shapeID )
 {
 	if ( !m_phyBody ) return;
-	if ( shapeID > (int)m_iNumAdditionalShapes ) 
+	if ( shapeID > (int)m_iNumAdditionalShapes )
 	{
 		uString err; err.Format( "Failed to set shape friction, shape %d does not exist", shapeID+1 );
 		return;
@@ -5504,11 +5504,11 @@ void cSprite::SetPhysicsFriction( float friction, int shapeID )
 
 	b2Shape *pShape = m_phyShape;
 	if ( shapeID > 0 ) pShape = m_phyAdditionalShapes[ shapeID-1 ];
-		
+
 	b2Fixture *pFix = m_phyBody->GetFixtureList();
 	while ( pFix )
 	{
-		if ( shapeID < 0 || pFix->GetShape() == pShape ) 
+		if ( shapeID < 0 || pFix->GetShape() == pShape )
 		{
 			pFix->SetFriction( friction );
 			if ( shapeID >= 0 ) break;
@@ -5518,9 +5518,9 @@ void cSprite::SetPhysicsFriction( float friction, int shapeID )
 
 	for ( b2ContactEdge* contactEdge = m_phyBody->GetContactList(); contactEdge; contactEdge = contactEdge->next )
 	{
-		if ( shapeID < 0 
-		  || contactEdge->contact->GetFixtureA() == pFix 
-	      || contactEdge->contact->GetFixtureB() == pFix ) 
+		if ( shapeID < 0
+		  || contactEdge->contact->GetFixtureA() == pFix
+	      || contactEdge->contact->GetFixtureB() == pFix )
 		{
 			contactEdge->contact->ResetFriction();
 		}
@@ -5530,7 +5530,7 @@ void cSprite::SetPhysicsFriction( float friction, int shapeID )
 void cSprite::SetPhysicsRestitution( float restitution, int shapeID )
 {
 	if ( !m_phyBody ) return;
-	if ( shapeID > (int)m_iNumAdditionalShapes ) 
+	if ( shapeID > (int)m_iNumAdditionalShapes )
 	{
 		uString err; err.Format( "Failed to set shape restitution, shape %d does not exist", shapeID+1 );
 		return;
@@ -5542,7 +5542,7 @@ void cSprite::SetPhysicsRestitution( float restitution, int shapeID )
 	b2Fixture *pFix = m_phyBody->GetFixtureList();
 	while ( pFix )
 	{
-		if ( shapeID < 0 || pFix->GetShape() == pShape ) 
+		if ( shapeID < 0 || pFix->GetShape() == pShape )
 		{
 			pFix->SetRestitution( restitution );
 			if ( shapeID >= 0 ) break;
@@ -5552,9 +5552,9 @@ void cSprite::SetPhysicsRestitution( float restitution, int shapeID )
 
 	for ( b2ContactEdge* contactEdge = m_phyBody->GetContactList(); contactEdge; contactEdge = contactEdge->next )
 	{
-		if ( shapeID < 0 
-		  || contactEdge->contact->GetFixtureA() == pFix 
-	      || contactEdge->contact->GetFixtureB() == pFix ) 
+		if ( shapeID < 0
+		  || contactEdge->contact->GetFixtureA() == pFix
+	      || contactEdge->contact->GetFixtureB() == pFix )
 		{
 			contactEdge->contact->ResetRestitution();
 		}
@@ -5564,7 +5564,7 @@ void cSprite::SetPhysicsRestitution( float restitution, int shapeID )
 void cSprite::SetPhysicsDensity( float density, int shapeID )
 {
 	if ( !m_phyBody ) return;
-	if ( shapeID > (int)m_iNumAdditionalShapes ) 
+	if ( shapeID > (int)m_iNumAdditionalShapes )
 	{
 		uString err; err.Format( "Failed to set shape density, shape %d does not exist", shapeID+1 );
 		return;
@@ -5576,7 +5576,7 @@ void cSprite::SetPhysicsDensity( float density, int shapeID )
 	b2Fixture *pFix = m_phyBody->GetFixtureList();
 	while ( pFix )
 	{
-		if ( shapeID < 0 || pFix->GetShape() == pShape ) 
+		if ( shapeID < 0 || pFix->GetShape() == pShape )
 		{
 			pFix->SetDensity( density );
 			if ( shapeID >= 0 ) break;
@@ -5643,7 +5643,7 @@ void cSprite::SetPhysicsMass( float mass )
 void cSprite::SetPhysicsIsSensor( bool sensor, int shapeID )
 {
 	if ( !m_phyBody ) return;
-	if ( shapeID > (int)m_iNumAdditionalShapes ) 
+	if ( shapeID > (int)m_iNumAdditionalShapes )
 	{
 		uString err; err.Format( "Failed to set shape sensor, shape %d does not exist", shapeID+1 );
 		return;
@@ -5695,7 +5695,7 @@ void cSprite::SetGroup( int group, int shapeID )
 	if ( shapeID <= 0 ) m_iGroup = group;
 
 	if ( !m_phyBody ) return;
-	if ( shapeID > (int)m_iNumAdditionalShapes ) 
+	if ( shapeID > (int)m_iNumAdditionalShapes )
 	{
 		uString err; err.Format( "Failed to set shape group, shape %d does not exist", shapeID+1 );
 		return;
@@ -5713,7 +5713,7 @@ void cSprite::SetGroup( int group, int shapeID )
 		if ( shapeID < 0 || pFix->GetShape() == pShape )
 		{
 			const b2Filter pFilter = pFix->GetFilterData();
-			
+
 			b2Filter pNewFilter;
 			pNewFilter.categoryBits = pFilter.categoryBits;
 			pNewFilter.maskBits = pFilter.maskBits;
@@ -5730,7 +5730,7 @@ void cSprite::SetCategoryBits( UINT categories, int shapeID )
 	if ( shapeID <= 0 ) m_iCategories = categories;
 
 	if ( !m_phyBody ) return;
-	if ( shapeID > (int)m_iNumAdditionalShapes ) 
+	if ( shapeID > (int)m_iNumAdditionalShapes )
 	{
 		uString err; err.Format( "Failed to set shape category bits, shape %d does not exist", shapeID+1 );
 		return;
@@ -5745,7 +5745,7 @@ void cSprite::SetCategoryBits( UINT categories, int shapeID )
 		if ( shapeID < 0 || pFix->GetShape() == pShape )
 		{
 			const b2Filter pFilter = pFix->GetFilterData();
-			
+
 			b2Filter pNewFilter;
 			pNewFilter.categoryBits = categories & 0x0000ffff;
 			pNewFilter.maskBits = pFilter.maskBits;
@@ -5763,14 +5763,14 @@ void cSprite::SetCategoryBit( UINT category, int flag, int shapeID )
 	if ( category > 16 ) return;
 
 	int mask = 1 << (category-1);
-	if ( shapeID <= 0 ) 
+	if ( shapeID <= 0 )
 	{
 		if ( flag ) m_iCategories |= mask;
 		else m_iCategories &= ~mask;
 	}
-		
+
 	if ( !m_phyBody ) return;
-	if ( shapeID > (int)m_iNumAdditionalShapes ) 
+	if ( shapeID > (int)m_iNumAdditionalShapes )
 	{
 		uString err; err.Format( "Failed to set shape category bit, shape %d does not exist", shapeID+1 );
 		return;
@@ -5789,7 +5789,7 @@ void cSprite::SetCategoryBit( UINT category, int flag, int shapeID )
 
 			if ( flag ) pNewFilter.categoryBits = pFilter.categoryBits | mask;
 			else pNewFilter.categoryBits = pFilter.categoryBits & ~mask;
-			
+
 			pNewFilter.maskBits = pFilter.maskBits;
 			pNewFilter.groupIndex = pFilter.groupIndex;
 			pFix->SetFilterData( pNewFilter );
@@ -5804,7 +5804,7 @@ void cSprite::SetCollideBits( UINT mask, int shapeID )
 	if ( shapeID <= 0 ) m_iCategoryMask = mask;
 
 	if ( !m_phyBody ) return;
-	if ( shapeID > (int)m_iNumAdditionalShapes ) 
+	if ( shapeID > (int)m_iNumAdditionalShapes )
 	{
 		uString err; err.Format( "Failed to set shape collide bits, shape %d does not exist", shapeID+1 );
 		return;
@@ -5819,7 +5819,7 @@ void cSprite::SetCollideBits( UINT mask, int shapeID )
 		if ( shapeID < 0 || pFix->GetShape() == pShape )
 		{
 			const b2Filter pFilter = pFix->GetFilterData();
-			
+
 			b2Filter pNewFilter;
 			pNewFilter.categoryBits = pFilter.categoryBits;
 			pNewFilter.maskBits = mask & 0x0000ffff;
@@ -5837,14 +5837,14 @@ void cSprite::SetCollideBit( UINT category, int flag, int shapeID )
 	if ( category > 16 ) return;
 
 	int mask = 1 << (category-1);
-	if ( shapeID <= 0 ) 
+	if ( shapeID <= 0 )
 	{
 		if ( flag ) m_iCategoryMask |= mask;
 		else m_iCategoryMask &= ~mask;
 	}
 
 	if ( !m_phyBody ) return;
-	if ( shapeID > (int)m_iNumAdditionalShapes ) 
+	if ( shapeID > (int)m_iNumAdditionalShapes )
 	{
 		uString err; err.Format( "Failed to set shape collide bit, shape %d does not exist", shapeID+1 );
 		return;
@@ -5860,7 +5860,7 @@ void cSprite::SetCollideBit( UINT category, int flag, int shapeID )
 		{
 			const b2Filter pFilter = pFix->GetFilterData();
 			b2Filter pNewFilter;
-			
+
 			if ( flag ) pNewFilter.maskBits = pFilter.maskBits | mask;
 			else pNewFilter.maskBits = pFilter.maskBits & ~mask;
 

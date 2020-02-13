@@ -118,7 +118,7 @@ namespace AGK
 			AGKFontImage *m_pFontImage;
 			UINT		m_iImageID;
 			UINT		m_iColor;
-			
+
 			// shader variables
 			AGKShader*	m_pShader;
 
@@ -146,7 +146,7 @@ namespace AGK
 			float		m_fV3;
 			float		m_fU4;
 			float		m_fV4;
-			
+
 			// collision variables
 			int			m_iGroup;
 			UINT		m_iCategories;
@@ -232,7 +232,7 @@ namespace AGK
 			~cSprite();
 
 			void ImageDeleting( cImage *pImage );
-		
+
 			// get functions
 			const char* GetName			( void ) { return m_sName.GetStr(); }
 			UINT GetCreated				( void );
@@ -280,7 +280,7 @@ namespace AGK
 			bool GetFlippedVertically	( void );
 
 			AGKShader* GetShader() { return m_pShader; }
-			void SetShader( AGKShader* shader ); 
+			void SetShader( AGKShader* shader );
 
 			void SetShaderConstantByName( const char *name, float v1, float v2, float v3, float v4 );
 			void SetShaderConstantArrayByName( const char *name, UINT index, float v1, float v2, float v3, float v4 );
@@ -447,7 +447,7 @@ namespace AGK
 			float GetPhysicsVelocityX();
 			float GetPhysicsVelocityY();
 			float GetPhysicsAngularVelocity();
-			
+
 			void SetPhysicsForce			( float x, float y, float vx, float vy );
 			void SetPhysicsTorque			( float a );
 			void SetPhysicsLinearImpulse	( float x, float y, float vx, float vy );
