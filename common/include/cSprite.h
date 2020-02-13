@@ -458,7 +458,10 @@ namespace AGK
 			float GetContactWorldX			();
 			float GetContactWorldY			();
 			cSprite* GetContactSprite2		();
-			
+
+			float GetContactNormalX			();
+			float GetContactNormalY			();
+
 			void UpdatePhysics				();
 	};
 }
