@@ -5660,6 +5660,18 @@ void cSprite::SetPhysicsIsSensor( bool sensor, int shapeID )
 	}
 }
 
+bool cSprite::GetPhysicsIsSensor() const {
+    for( b2Fixture *pFix = m_phyBody->GetFixtureList();
+         pFix != nullptr;
+         pFix = pFix->GetNext() ) {
+        if( pFix->IsSensor() ) {
+            return true;
+        }
+    }
+
+    return false;
+}
+
 float cSprite::GetPhysicsVelocityX() const
 {
 	if ( !m_phyBody ) return 0;
