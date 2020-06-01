@@ -64,6 +64,21 @@ namespace AGK
 
 	class _EXPORT_ cSprite
 	{
+        public:
+            enum ePhysicsMode {
+                eStatic,
+                eDynamic,
+                eKinematic
+            };
+
+            enum ePhysicsShape {
+                eNone,
+                eBox,
+                eCircle,
+                ePolygon,
+                eManual
+            };
+
 		protected:
 
 			struct sSpriteUniform {
@@ -176,22 +191,6 @@ namespace AGK
 
 			cSprite*	m_pPrevSprite;
 			cSprite*	m_pNextSprite;
-
-			enum ePhysicsMode
-			{
-				eStatic,
-				eDynamic,
-				eKinematic
-			};
-
-			enum ePhysicsShape
-			{
-				eNone,
-				eBox,
-				eCircle,
-				ePolygon,
-				eManual
-			};
 
 			// physics variables
 			b2Body *m_phyBody;
