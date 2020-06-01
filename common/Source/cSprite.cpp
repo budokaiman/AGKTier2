@@ -515,7 +515,7 @@ void cSprite::RecalcColRadius()
 	}
 }
 
-UINT cSprite::GetCreated ( void )
+UINT cSprite::GetCreated ( void ) const
 {
 	return m_iCreated;
 }
@@ -524,7 +524,7 @@ UINT cSprite::GetCreated ( void )
 // FUNCTION
 //   Returns the ID used by the agk class.
 // SOURCE
-UINT cSprite::GetID ( void )
+UINT cSprite::GetID ( void ) const
 //****
 {
 	return m_iID;
@@ -534,7 +534,7 @@ UINT cSprite::GetID ( void )
 // FUNCTION
 //   Returns the current X coordinate of the unrotated top left corner of the sprite.
 // SOURCE
-float cSprite::GetX ( void )
+float cSprite::GetX ( void ) const
 //****
 {
 	return m_fX - m_fOffsetX;
@@ -544,13 +544,13 @@ float cSprite::GetX ( void )
 // FUNCTION
 //   Returns the current Y coordinate of the unrotated top left corner of the sprite.
 // SOURCE
-float cSprite::GetY ( void )
+float cSprite::GetY ( void ) const
 //****
 {
 	return m_fY - m_fOffsetY;
 }
 
-float cSprite::GetZ ( void )
+float cSprite::GetZ ( void ) const
 {
 	return m_fZ;
 }
@@ -559,7 +559,7 @@ float cSprite::GetZ ( void )
 // FUNCTION
 //   Returns the current X coordinate of the sprites offset point on the screen.
 // SOURCE
-float cSprite::GetXByOffset ( void )
+float cSprite::GetXByOffset ( void ) const
 //****
 {
 	return m_fX;
@@ -569,7 +569,7 @@ float cSprite::GetXByOffset ( void )
 // FUNCTION
 //   Returns the current Y coordinate of the sprites offset point on the screen.
 // SOURCE
-float cSprite::GetYByOffset ( void )
+float cSprite::GetYByOffset ( void ) const
 //****
 {
 	return m_fY;
@@ -579,7 +579,7 @@ float cSprite::GetYByOffset ( void )
 // FUNCTION
 //   Returns the current X offset of the sprite.
 // SOURCE
-float cSprite::GetOffsetX ( void )
+float cSprite::GetOffsetX ( void ) const
 //****
 {
 	return m_fOffsetX;
@@ -589,7 +589,7 @@ float cSprite::GetOffsetX ( void )
 // FUNCTION
 //   Returns the current Y offset of the sprite.
 // SOURCE
-float cSprite::GetOffsetY ( void )
+float cSprite::GetOffsetY ( void ) const
 //****
 {
 	return m_fOffsetY;
@@ -599,7 +599,7 @@ float cSprite::GetOffsetY ( void )
 // FUNCTION
 //   Returns the current angle of the sprite in degrees. An angle of 90 would be a 90 degree clockwise rotation of the sprite.
 // SOURCE
-float cSprite::GetAngle ( void )
+float cSprite::GetAngle ( void ) const
 //****
 {
 	return m_fAngle * (180.0f/PI);
@@ -609,7 +609,7 @@ float cSprite::GetAngle ( void )
 // FUNCTION
 //   Returns the current angle of the sprite in radians. An angle of PI/2 radians would be a 90 degree clockwise rotation of the sprite.
 // SOURCE
-float cSprite::GetAngleRad ( void )
+float cSprite::GetAngleRad ( void ) const
 //****
 {
 	return m_fAngle;
@@ -620,7 +620,7 @@ float cSprite::GetAngleRad ( void )
 //   Returns the current width of the sprite in world coordinates. Rotation does not affect the width value returned.
 //   If the sprite has been scaled the width value returned will be scaled from it's original size.
 // SOURCE
-float cSprite::GetWidth ( void )
+float cSprite::GetWidth ( void ) const
 //****
 {
 	return m_fWidth;
@@ -631,18 +631,18 @@ float cSprite::GetWidth ( void )
 //   Returns the current height of the sprite in world coordinates. Rotation does not affect the height value returned.
 //   If the sprite has been scaled the height value returned will be scaled from it's original size.
 // SOURCE
-float cSprite::GetHeight ( void )
+float cSprite::GetHeight ( void ) const
 //****
 {
 	return m_fHeight;
 }
 
-float cSprite::GetScaleX( void )
+float cSprite::GetScaleX( void ) const
 {
 	return m_fWidth / m_fOrigWidth;
 }
 
-float cSprite::GetScaleY( void )
+float cSprite::GetScaleY( void ) const
 {
 	return m_fHeight / m_fOrigHeight;
 }
@@ -651,7 +651,7 @@ float cSprite::GetScaleY( void )
 // FUNCTION
 //   Returns the current depth of the sprite between 0-10000. 0 being the front of the screen, 10000 being the back.
 // SOURCE
-int cSprite::GetDepth ( void )
+int cSprite::GetDepth ( void ) const
 //****
 {
 	// correct for floating point inaccuracies
@@ -663,7 +663,7 @@ int cSprite::GetDepth ( void )
 // FUNCTION
 //   Returns the number of animation frames this sprite has, 0 for no animation.
 // SOURCE
-int cSprite::GetFrameCount ( void )
+int cSprite::GetFrameCount ( void ) const
 //****
 {
 	return m_iFrameCount;
@@ -673,7 +673,7 @@ int cSprite::GetFrameCount ( void )
 // FUNCTION
 //   Returns the index of current animation frame of the sprite.
 // SOURCE
-int cSprite::GetCurrentFrame ( void )
+int cSprite::GetCurrentFrame ( void ) const
 //****
 {
 	return m_iCurrentFrame + 1;
@@ -683,7 +683,7 @@ int cSprite::GetCurrentFrame ( void )
 // FUNCTION
 //   Returns the current transparency mode of the sprite, 0=no transparency, 1=alpha channel transparency, 2=alpha mask (on/off) transparency.
 // SOURCE
-int cSprite::GetTransparencyMode ( void )
+int cSprite::GetTransparencyMode ( void ) const
 //****
 {
 	return m_iTransparencyMode;
@@ -717,7 +717,7 @@ bool cSprite::GetDepthChanged( void )
 //   Returns true if the depth has changed since this function was lasted called. Used by the sprite manager class.
 //   Does not clear the depth changed flag
 // SOURCE
-bool cSprite::CheckDepthChanged( void )
+bool cSprite::CheckDepthChanged( void ) const
 //****
 {
 	bool bResult = (m_bFlags & AGK_SPRITE_DEPTHCHANGED) != 0;
@@ -742,7 +742,7 @@ bool cSprite::GetTextureChanged( void )
 //   Returns true if the texture has changed since this function was lasted called. Used by the sprite manager class.
 //   Does not clear the changed flag
 // SOURCE
-bool cSprite::CheckTextureChanged( void )
+bool cSprite::CheckTextureChanged( void ) const
 //****
 {
 	bool bResult = (m_bFlags & AGK_SPRITE_TEXCHANGED) != 0;
@@ -765,13 +765,13 @@ bool cSprite::GetTransparencyChanged( void )
 // FUNCTION
 //   Returns true if the sprite is currently visible.
 // SOURCE
-bool cSprite::GetVisible( void )
+bool cSprite::GetVisible( void ) const
 //****
 {
 	return (m_bFlags & AGK_SPRITE_VISIBLE) != 0;
 }
 
-bool cSprite::GetInScreen( void )
+bool cSprite::GetInScreen( void ) const
 //****
 {
 	//float stretch = agk::m_fStretchValue;
@@ -903,7 +903,7 @@ bool cSprite::GetInScreen( void )
 // FUNCTION
 //   Returns true if the sprite is currently set to update its animation, physics, and other properties.
 // SOURCE
-bool cSprite::GetActive( void )
+bool cSprite::GetActive( void ) const
 //****
 {
 	return (m_bFlags & AGK_SPRITE_ACTIVE) != 0;
@@ -913,7 +913,7 @@ bool cSprite::GetActive( void )
 // FUNCTION
 //   Returns true if the point x,y in world coordinates lies within the sprite. Takes into account the rotation and offset values of the sprite.
 // SOURCE
-bool cSprite::GetHitTest( float x, float y )
+bool cSprite::GetHitTest( float x, float y ) const
 //****
 {
 	if ( (m_bFlags & AGK_SPRITE_SCROLL) == 0 )
@@ -982,7 +982,7 @@ bool cSprite::GetHitTest( float x, float y )
 // FUNCTION
 //   Returns true if the two sprites should collide based on their group and category settings.
 // SOURCE
-bool cSprite::GetShouldCollide( cSprite *pSprite2 )
+bool cSprite::GetShouldCollide( cSprite *pSprite2 ) const
 //****
 {
 	assert(pSprite2);
@@ -993,39 +993,39 @@ bool cSprite::GetShouldCollide( cSprite *pSprite2 )
 	return collide;
 }
 
-UINT cSprite::GetColorRed( )
+UINT cSprite::GetColorRed( ) const
 {
 	return m_iColor >> 24;
 }
 
-UINT cSprite::GetColorGreen( )
+UINT cSprite::GetColorGreen( ) const
 {
 	return (m_iColor >> 16) & 0xff;
 }
 
-UINT cSprite::GetColorBlue( )
+UINT cSprite::GetColorBlue( ) const
 {
 	return (m_iColor >> 8) & 0xff;
 }
 
-UINT cSprite::GetColorAlpha( )
+UINT cSprite::GetColorAlpha( ) const
 {
 	return m_iColor & 0xff;
 }
 
-int cSprite::GetScrollMode( )
+int cSprite::GetScrollMode( ) const
 {
 	if ( (m_bFlags & AGK_SPRITE_SCROLL) > 0 ) return 1;
 	else return 0;
 }
 
-int cSprite::GetPlaying( )
+int cSprite::GetPlaying( ) const
 {
 	if ( (m_bFlags & AGK_SPRITE_PLAYING) > 0 ) return 1;
 	else return 0;
 }
 
-bool cSprite::GetScissorOn( )
+bool cSprite::GetScissorOn( ) const
 {
 	if ( m_fClipX2 != 0 ) return true;
 	if ( m_fClipX != 0 )  return true;
@@ -1036,35 +1036,35 @@ bool cSprite::GetScissorOn( )
 }
 
 
-float cSprite::GetXFromPixel( int x )
+float cSprite::GetXFromPixel( int x ) const
 {
 	if ( !m_pImage ) return 0;
 
 	return x * GetWidth() / m_pImage->GetWidth();
 }
 
-float cSprite::GetYFromPixel( int y )
+float cSprite::GetYFromPixel( int y ) const
 {
 	if ( !m_pImage ) return 0;
 
 	return y * GetHeight() / m_pImage->GetHeight();
 }
 
-int cSprite::GetPixelFromX( float x )
+int cSprite::GetPixelFromX( float x ) const
 {
 	if ( !m_pImage ) return 0;
 
 	return agk::Round( x * m_pImage->GetWidth() / GetWidth() );
 }
 
-int cSprite::GetPixelFromY( float y )
+int cSprite::GetPixelFromY( float y ) const
 {
 	if ( !m_pImage ) return 0;
 
 	return agk::Round( y * m_pImage->GetHeight() / GetHeight() );
 }
 
-float cSprite::GetWorldXFromPoint( float x, float y )
+float cSprite::GetWorldXFromPoint( float x, float y ) const
 {
 	// test
 	float fSinA = agk::SinRad(m_fAngle);
@@ -1074,7 +1074,7 @@ float cSprite::GetWorldXFromPoint( float x, float y )
 	return worldX;
 }
 
-float cSprite::GetWorldYFromPoint( float x, float y )
+float cSprite::GetWorldYFromPoint( float x, float y ) const
 {
 	// test
 	float fSinA = agk::SinRad(m_fAngle);
@@ -1084,7 +1084,7 @@ float cSprite::GetWorldYFromPoint( float x, float y )
 	return worldY;
 }
 
-float cSprite::GetXFromWorld( float x, float y )
+float cSprite::GetXFromWorld( float x, float y ) const
 {
 	// test
 	x -= m_fX;
@@ -1097,7 +1097,7 @@ float cSprite::GetXFromWorld( float x, float y )
 	return spriteX;
 }
 
-float cSprite::GetYFromWorld( float x, float y )
+float cSprite::GetYFromWorld( float x, float y ) const
 {
 	// test
 	x -= m_fX;
@@ -2190,7 +2190,7 @@ void cSprite::SetUserInt( int index, int value )
 	m_pUserInts[ index ] = value;
 }
 
-int cSprite::GetUserInt( int index )
+int cSprite::GetUserInt( int index ) const
 {
 	if ( index < 0 || index >= m_iNumUserInts ) return 0;
 
@@ -2221,7 +2221,7 @@ void cSprite::SetUserFloat( int index, float value )
 	m_pUserFloats[ index ] = value;
 }
 
-float cSprite::GetUserFloat( int index )
+float cSprite::GetUserFloat( int index ) const
 {
 	if ( index < 0 || index >= m_iNumUserFloats ) return 0;
 
@@ -3010,7 +3010,7 @@ void cSprite::GetClipValues( int &x, int &y, int &width, int &height )
 	}
 }
 
-int cSprite::GetGroup()
+int cSprite::GetGroup() const
 {
 	return m_iGroup;
 }
@@ -3025,12 +3025,12 @@ int cSprite::HasAdditionalImages()
 	return 0;
 }
 
-bool cSprite::GetFlippedHorizontally()
+bool cSprite::GetFlippedHorizontally() const
 {
 	return 0 != (m_bFlags & AGK_SPRITE_FLIPH);
 }
 
-bool cSprite::GetFlippedVertically()
+bool cSprite::GetFlippedVertically() const
 {
 	return 0 != (m_bFlags & AGK_SPRITE_FLIPV);
 }
@@ -4572,22 +4572,22 @@ float cSprite::GetDistance( cSprite *pSprite2 )
 	return agk::PhyToWorldX(m_colResult->distance);
 }
 
-float cSprite::GetDistancePoint1X( void )
+float cSprite::GetDistancePoint1X( void ) const
 {
 	return agk::PhyToWorldX(m_colResult->pointA.x);
 }
 
-float cSprite::GetDistancePoint1Y( void )
+float cSprite::GetDistancePoint1Y( void ) const
 {
 	return agk::PhyToWorldY(m_colResult->pointA.y);
 }
 
-float cSprite::GetDistancePoint2X( void )
+float cSprite::GetDistancePoint2X( void ) const
 {
 	return agk::PhyToWorldX(m_colResult->pointB.x);
 }
 
-float cSprite::GetDistancePoint2Y( void )
+float cSprite::GetDistancePoint2Y( void ) const
 {
 	return agk::PhyToWorldY(m_colResult->pointB.y);
 }
@@ -4615,19 +4615,19 @@ bool cSprite::GetPhysicsCollision( cSprite *pSprite2 )
 	return false;
 }
 
-float cSprite::GetPhysicsCollisionX( )
+float cSprite::GetPhysicsCollisionX( ) const
 {
 	if ( m_lastContact ) return GetXFromWorld( GetPhysicsCollisionWorldX(), GetPhysicsCollisionWorldY() );
 	return 0;
 }
 
-float cSprite::GetPhysicsCollisionY( )
+float cSprite::GetPhysicsCollisionY( ) const
 {
 	if ( m_lastContact ) return GetYFromWorld( GetPhysicsCollisionWorldX(), GetPhysicsCollisionWorldY() );
 	return 0;
 }
 
-float cSprite::GetPhysicsCollisionWorldX( )
+float cSprite::GetPhysicsCollisionWorldX( ) const
 {
 	if ( m_lastContact )
 	{
@@ -4638,7 +4638,7 @@ float cSprite::GetPhysicsCollisionWorldX( )
 	return 0;
 }
 
-float cSprite::GetPhysicsCollisionWorldY( )
+float cSprite::GetPhysicsCollisionWorldY( ) const
 {
 	if ( m_lastContact )
 	{
@@ -5289,7 +5289,7 @@ void cSprite::ClearAdditionalShapes()
 	RecalcColRadius();
 }
 
-int cSprite::GetShapeNumVertices( int shapeID )
+int cSprite::GetShapeNumVertices( int shapeID ) const
 {
 	if ( shapeID > (int)m_iNumAdditionalShapes )
 	{
@@ -5315,7 +5315,7 @@ int cSprite::GetShapeNumVertices( int shapeID )
 	else return 0;
 }
 
-float cSprite::GetShapeVertexX( int shapeID, int vertex )
+float cSprite::GetShapeVertexX( int shapeID, int vertex ) const
 {
 	if ( shapeID > (int)m_iNumAdditionalShapes )
 	{
@@ -5353,7 +5353,7 @@ float cSprite::GetShapeVertexX( int shapeID, int vertex )
 	else return 0;
 }
 
-float cSprite::GetShapeVertexY( int shapeID, int vertex )
+float cSprite::GetShapeVertexY( int shapeID, int vertex ) const
 {
 	if ( shapeID > (int)m_iNumAdditionalShapes )
 	{
@@ -5660,28 +5660,28 @@ void cSprite::SetPhysicsIsSensor( bool sensor, int shapeID )
 	}
 }
 
-float cSprite::GetPhysicsVelocityX()
+float cSprite::GetPhysicsVelocityX() const
 {
 	if ( !m_phyBody ) return 0;
 
 	return agk::PhyToWorldX( m_phyBody->GetLinearVelocity().x );
 }
 
-float cSprite::GetPhysicsVelocityY()
+float cSprite::GetPhysicsVelocityY() const
 {
 	if ( !m_phyBody ) return 0;
 
 	return agk::PhyToWorldY( m_phyBody->GetLinearVelocity().y );
 }
 
-float cSprite::GetPhysicsAngularVelocity()
+float cSprite::GetPhysicsAngularVelocity() const
 {
 	if ( !m_phyBody ) return 0;
 
 	return m_phyBody->GetAngularVelocity();
 }
 
-float cSprite::GetPhysicsMass( )
+float cSprite::GetPhysicsMass( ) const
 {
 	if ( !m_phyBody ) return 0;
 
@@ -5927,7 +5927,7 @@ int cSprite::GetNextContact()
 	return m_pContactIter ? 1 : 0;
 }
 
-float cSprite::GetContactWorldX()
+float cSprite::GetContactWorldX() const
 {
 	if ( !m_pContactIter ) return 0;
 	b2WorldManifold manifold;
@@ -5935,7 +5935,7 @@ float cSprite::GetContactWorldX()
 	return agk::PhyToWorldX(manifold.points[0].x);
 }
 
-float cSprite::GetContactWorldY()
+float cSprite::GetContactWorldY() const
 {
 	if ( !m_pContactIter ) return 0;
 	b2WorldManifold manifold;
@@ -5943,7 +5943,7 @@ float cSprite::GetContactWorldY()
 	return agk::PhyToWorldY(manifold.points[0].y);
 }
 
-cSprite* cSprite::GetContactSprite2()
+cSprite* cSprite::GetContactSprite2() const
 {
 	if ( !m_pContactIter ) return UNDEF;
 	cSprite *pSprite = (cSprite*) m_pContactIter->contact->GetFixtureA()->GetBody()->GetUserData();
@@ -5951,7 +5951,7 @@ cSprite* cSprite::GetContactSprite2()
 	return pSprite;
 }
 
-float cSprite::GetContactNormalX() {
+float cSprite::GetContactNormalX() const {
 	if ( !m_pContactIter ) return 0;
 	b2WorldManifold manifold;
 	m_pContactIter->contact->GetWorldManifold(&manifold);
@@ -5963,7 +5963,7 @@ float cSprite::GetContactNormalX() {
     }
 }
 
-float cSprite::GetContactNormalY() {
+float cSprite::GetContactNormalY() const {
 	if ( !m_pContactIter ) return 0;
 	b2WorldManifold manifold;
 	m_pContactIter->contact->GetWorldManifold(&manifold);

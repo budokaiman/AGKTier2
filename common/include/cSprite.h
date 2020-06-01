@@ -234,49 +234,49 @@ namespace AGK
 
 			// get functions
 			const char* GetName			( void ) { return m_sName.GetStr(); }
-			UINT GetCreated				( void );
-			UINT GetID					( void );
-			float GetX					( void );
-			float GetY					( void );
-			float GetZ					( void );
-			float GetXByOffset			( void );
-			float GetYByOffset			( void );
-			float GetOffsetX			( void );
-			float GetOffsetY			( void );
-			float GetAngle				( void );
-			float GetAngleRad			( void );
-			float GetWidth				( void );
-			float GetHeight				( void );
-			float GetScaleX				( void );
-			float GetScaleY				( void );
-			int GetDepth				( void );
-			int GetFrameCount			( void );
-			int GetCurrentFrame			( void );
-			int GetTransparencyMode		( void );
+			UINT GetCreated				( void ) const;
+			UINT GetID					( void ) const;
+			float GetX					( void ) const;
+			float GetY					( void ) const;
+			float GetZ					( void ) const;
+			float GetXByOffset			( void ) const;
+			float GetYByOffset			( void ) const;
+			float GetOffsetX			( void ) const;
+			float GetOffsetY			( void ) const;
+			float GetAngle				( void ) const;
+			float GetAngleRad			( void ) const;
+			float GetWidth				( void ) const;
+			float GetHeight				( void ) const;
+			float GetScaleX				( void ) const;
+			float GetScaleY				( void ) const;
+			int GetDepth				( void ) const;
+			int GetFrameCount			( void ) const;
+			int GetCurrentFrame			( void ) const;
+			int GetTransparencyMode		( void ) const;
 			cImage* GetImagePtr			( void );
 			bool GetDepthChanged		( void );
-			bool CheckDepthChanged		( void );
+			bool CheckDepthChanged		( void ) const;
 			bool GetTextureChanged		( void );
-			bool CheckTextureChanged	( void );
+			bool CheckTextureChanged	( void ) const;
 			bool GetTransparencyChanged	( void );
-			bool GetVisible				( void );
-			bool GetInScreen			( void );
-			bool GetActive				( void );
-			bool GetHitTest				( float x, float y );
-			bool GetShouldCollide		( cSprite *pSprite2 );
-			UINT GetColorRed			( void );
-			UINT GetColorGreen			( void );
-			UINT GetColorBlue			( void );
-			UINT GetColorAlpha			( void );
-			int GetScrollMode			( void );
-			int GetPlaying				( void );
-			bool GetScissorOn			( void );
+			bool GetVisible				( void ) const;
+			bool GetInScreen			( void ) const;
+			bool GetActive				( void ) const;
+			bool GetHitTest				( float x, float y ) const;
+			bool GetShouldCollide		( cSprite *pSprite2 ) const;
+			UINT GetColorRed			( void ) const;
+			UINT GetColorGreen			( void ) const;
+			UINT GetColorBlue			( void ) const;
+			UINT GetColorAlpha			( void ) const;
+			int GetScrollMode			( void ) const;
+			int GetPlaying				( void ) const;
+			bool GetScissorOn			( void ) const;
 			void GetClipValues			( int &x, int &y, int &width, int &height );
-			int GetGroup				( void );
+			int GetGroup				( void ) const;
 			int HasAdditionalImages		( void );
 			bool IsManaged() { return m_bManaged; }
-			bool GetFlippedHorizontally	( void );
-			bool GetFlippedVertically	( void );
+			bool GetFlippedHorizontally	( void ) const;
+			bool GetFlippedVertically	( void ) const;
 
 			AGKShader* GetShader() { return m_pShader; }
 			void SetShader( AGKShader* shader );
@@ -285,15 +285,15 @@ namespace AGK
 			void SetShaderConstantArrayByName( const char *name, UINT index, float v1, float v2, float v3, float v4 );
 			void SetShaderConstantDefault( const char *name );
 
-			float GetXFromPixel( int x );
-			float GetYFromPixel( int y );
-			int GetPixelFromX( float x );
-			int GetPixelFromY( float y );
+			float GetXFromPixel( int x ) const;
+			float GetYFromPixel( int y ) const;
+			int GetPixelFromX( float x ) const;
+			int GetPixelFromY( float y ) const;
 
-			float GetWorldXFromPoint( float x, float y );
-			float GetWorldYFromPoint( float x, float y );
-			float GetXFromWorld( float x, float y );
-			float GetYFromWorld( float x, float y );
+			float GetWorldXFromPoint( float x, float y ) const;
+			float GetWorldYFromPoint( float x, float y ) const;
+			float GetXFromWorld( float x, float y ) const;
+			float GetYFromWorld( float x, float y ) const;
 
 			// set functions
 			void SetBone				( Bone2D *bone );
@@ -344,8 +344,8 @@ namespace AGK
 			void SetUserInt				( int index, int value );
 			void SetUserFloat			( int index, float value );
 			void SetUserString			( int index, const uString& value );
-			int GetUserInt				( int index );
-			float GetUserFloat			( int index );
+			int GetUserInt				( int index ) const;
+			float GetUserFloat			( int index ) const;
 			const uString& GetUserString( int index );
 
 			void SetFontImage			( AGKFontImage *pFontImage, float scale );
@@ -377,18 +377,18 @@ namespace AGK
 			bool GetCollision			( cSprite *pSprite2 );
 
 			float GetDistance			( cSprite *pSprite2 );
-			float GetDistancePoint1X    ( void );
-			float GetDistancePoint1Y    ( void );
-			float GetDistancePoint2X    ( void );
-			float GetDistancePoint2Y    ( void );
+			float GetDistancePoint1X    ( void ) const;
+			float GetDistancePoint1Y    ( void ) const;
+			float GetDistancePoint2X    ( void ) const;
+			float GetDistancePoint2Y    ( void ) const;
 
 			bool GetPhysicsCollision( cSprite *pSprite2 );
-			float GetPhysicsCollisionX( );
-			float GetPhysicsCollisionY( );
-			float GetPhysicsCollisionWorldX( );
-			float GetPhysicsCollisionWorldY( );
+			float GetPhysicsCollisionX( ) const;
+			float GetPhysicsCollisionY( ) const;
+			float GetPhysicsCollisionWorldX( ) const;
+			float GetPhysicsCollisionWorldY( ) const;
 
-			float GetPhysicsMass( );
+			float GetPhysicsMass( ) const;
 
 			// can be used on its own without physics to detect hits and overlaps, sets main shape only
 			void SetShape					( ePhysicsShape shape, int shapeID=-1 );
@@ -409,9 +409,9 @@ namespace AGK
 
 			void ClearAdditionalShapes		();
 			int GetNumShapes				() { return m_phyShape ? m_iNumAdditionalShapes+1 : 0; }
-			int GetShapeNumVertices			( int shapeID );
-			float GetShapeVertexX			( int shapeID, int vertex );
-			float GetShapeVertexY			( int shapeID, int vertex );
+			int GetShapeNumVertices			( int shapeID ) const;
+			float GetShapeVertexX			( int shapeID, int vertex ) const;
+			float GetShapeVertexY			( int shapeID, int vertex ) const;
 
 			//void Create
 
@@ -443,9 +443,9 @@ namespace AGK
 			void SetPhysicsMass				( float mass );
 			void SetPhysicsIsSensor			( bool sensor, int shapeID=-1 );
 
-			float GetPhysicsVelocityX();
-			float GetPhysicsVelocityY();
-			float GetPhysicsAngularVelocity();
+			float GetPhysicsVelocityX() const;
+			float GetPhysicsVelocityY() const;
+			float GetPhysicsAngularVelocity() const;
 
 			void SetPhysicsForce			( float x, float y, float vx, float vy );
 			void SetPhysicsTorque			( float a );
@@ -454,12 +454,12 @@ namespace AGK
 
 			int GetFirstContact				();
 			int GetNextContact				();
-			float GetContactWorldX			();
-			float GetContactWorldY			();
-			cSprite* GetContactSprite2		();
+			float GetContactWorldX			() const;
+			float GetContactWorldY			() const;
+			cSprite* GetContactSprite2		() const;
 
-			float GetContactNormalX			();
-			float GetContactNormalY			();
+			float GetContactNormalX			() const;
+			float GetContactNormalY			() const;
 
 			void UpdatePhysics				();
 	};
