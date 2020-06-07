@@ -5968,7 +5968,16 @@ float cSprite::GetContactNormalX() const {
 	b2WorldManifold manifold;
 	m_pContactIter->contact->GetWorldManifold(&manifold);
 
-    if( m_pContactIter->contact->GetFixtureA()->GetShape()->GetType() == b2Shape::e_circle ) {
+    bool invertFixture = false;
+    b2Fixture* otherFixture = m_pContactIter->contact->GetFixtureA();
+    cSprite *pSprite = (cSprite*)otherFixture->GetBody()->GetUserData();
+    if( pSprite == this ) {
+        otherFixture = m_pContactIter->contact->GetFixtureB();
+        invertFixture = true;
+    }
+
+    if( ( invertFixture && otherFixture->GetShape()->GetType() != b2Shape::e_circle ) ||
+        ( !invertFixture && otherFixture->GetShape()->GetType() == b2Shape::e_circle ) ) {
         return -manifold.normal.x;
     } else {
         return manifold.normal.x;
@@ -5980,7 +5989,16 @@ float cSprite::GetContactNormalY() const {
 	b2WorldManifold manifold;
 	m_pContactIter->contact->GetWorldManifold(&manifold);
 
-	if(m_pContactIter->contact->GetFixtureA()->GetShape()->GetType() == b2Shape::e_circle) {
+    bool invertFixture = false;
+    b2Fixture* otherFixture = m_pContactIter->contact->GetFixtureA();
+    cSprite *pSprite = (cSprite*)otherFixture->GetBody()->GetUserData();
+    if( pSprite == this ) {
+        otherFixture = m_pContactIter->contact->GetFixtureB();
+        invertFixture = true;
+    }
+
+    if( ( invertFixture && otherFixture->GetShape()->GetType() != b2Shape::e_circle ) ||
+        ( !invertFixture && otherFixture->GetShape()->GetType() == b2Shape::e_circle ) ) {
 		return -manifold.normal.y;
 	} else {
 		return manifold.normal.y;
