@@ -5493,6 +5493,14 @@ void cSprite::SetPhysicsDelete( )
 	m_phyBody = UNDEF;
 }
 
+bool cSprite::GetPhysicsIsOn() const {
+    if( !m_phyBody ) {
+        return false;
+    }
+
+    return m_phyBody->IsActive();
+}
+
 void cSprite::SetPhysicsFriction( float friction, int shapeID )
 {
 	if ( !m_phyBody ) return;

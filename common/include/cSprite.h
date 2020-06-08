@@ -431,6 +431,7 @@ namespace AGK
 			void SetPhysicsOn				( ePhysicsMode mode );
 			void SetPhysicsOff				();
 			void SetPhysicsDelete			();
+            bool GetPhysicsIsOn             () const;
 			void SetPhysicsFriction			( float friction, int shapeID=-1 );
 			void SetPhysicsRestitution		( float restitution, int shapeID=-1 );
 			void SetPhysicsDensity			( float density, int shapeID=-1 );
@@ -442,7 +443,7 @@ namespace AGK
 			void SetPhysicsIsBullet			( bool bullet );
 			void SetPhysicsMass				( float mass );
 			void SetPhysicsIsSensor			( bool sensor, int shapeID=-1 );
-            bool GetPhysicsIsSensor        () const;
+            bool GetPhysicsIsSensor         () const;
 
 			float GetPhysicsVelocityX() const;
 			float GetPhysicsVelocityY() const;
