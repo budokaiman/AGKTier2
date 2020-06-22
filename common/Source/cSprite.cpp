@@ -5668,11 +5668,14 @@ void cSprite::SetPhysicsIsSensor( bool sensor, int shapeID )
 	}
 }
 
-bool cSprite::GetPhysicsIsSensor() const {
-    for( b2Fixture *pFix = m_phyBody->GetFixtureList();
-         pFix != nullptr;
-         pFix = pFix->GetNext() ) {
-        if( pFix->IsSensor() ) {
+bool cSprite::GetPhysicsIsSensor( int shapeID ) const {
+    for( b2Fixture *pFix = m_phyBody->GetFixtureList(); pFix != nullptr; pFix = pFix->GetNext() ) {
+        b2Shape *pShape = m_phyShape;
+        if( shapeID > 0 ) {
+            pShape = m_phyAdditionalShapes[shapeID - 1];
+        }
+
+        if( ( shapeID < 0 || pFix->GetShape() == pShape ) && pFix->IsSensor() ) {
             return true;
         }
     }
@@ -5931,19 +5934,25 @@ void cSprite::SetPhysicsAngularImpulse( float a )
 	m_phyBody->ApplyAngularImpulse( a, true );
 }
 
-int cSprite::GetFirstContact()
+int cSprite::GetFirstContact( bool includeAll )
 {
 	if ( !m_phyBody ) return 0;
 	m_pContactIter = m_phyBody->GetContactList();
-	while ( m_pContactIter && !m_pContactIter->contact->IsTouching() ) m_pContactIter = m_pContactIter->next;
+	while ( m_pContactIter &&
+          ( ( !includeAll && !m_pContactIter->contact->IsTouching() ) ||
+            ( includeAll && !m_pContactIter->contact->IsEnabled() ) ) )
+        m_pContactIter = m_pContactIter->next;
 	return m_pContactIter ? 1 : 0;
 }
 
-int cSprite::GetNextContact()
+int cSprite::GetNextContact( bool includeAll )
 {
 	if ( !m_pContactIter ) return 0;
 	m_pContactIter = m_pContactIter->next;
-	while ( m_pContactIter && !m_pContactIter->contact->IsTouching() ) m_pContactIter = m_pContactIter->next;
+    while( m_pContactIter &&
+         ( ( !includeAll && !m_pContactIter->contact->IsTouching() ) ||
+            ( includeAll && !m_pContactIter->contact->IsEnabled() ) ) )
+        m_pContactIter = m_pContactIter->next;
 	return m_pContactIter ? 1 : 0;
 }
 

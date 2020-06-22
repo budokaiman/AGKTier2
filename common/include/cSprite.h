@@ -443,7 +443,7 @@ namespace AGK
 			void SetPhysicsIsBullet			( bool bullet );
 			void SetPhysicsMass				( float mass );
 			void SetPhysicsIsSensor			( bool sensor, int shapeID=-1 );
-            bool GetPhysicsIsSensor         () const;
+            bool GetPhysicsIsSensor         ( int shapeID = -1 ) const;
 
 			float GetPhysicsVelocityX() const;
 			float GetPhysicsVelocityY() const;
@@ -454,8 +454,8 @@ namespace AGK
 			void SetPhysicsLinearImpulse	( float x, float y, float vx, float vy );
 			void SetPhysicsAngularImpulse	( float a );
 
-			int GetFirstContact				();
-			int GetNextContact				();
+			int GetFirstContact				( bool includeAll = false );
+			int GetNextContact				( bool includeAll = false );
 			float GetContactWorldX			() const;
 			float GetContactWorldY			() const;
 			cSprite* GetContactSprite2		() const;
